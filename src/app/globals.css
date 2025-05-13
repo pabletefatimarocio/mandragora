@@ -1,12 +1,16 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --beige: #E9E5D6;
+  --green-light: #ACB992;
+  --green: #464E2E;
+  --brown: #362706;
+  --white: #F5F5F5;
 }
 
 
-
-
 body {
+  background-color: var(--beige);
+  color: var(--brown);
+  font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
