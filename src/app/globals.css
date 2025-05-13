@@ -10,6 +10,7 @@
 body {
   background-color: var(--beige);
   color: var(--brown);
+  height: 100dvh;
   font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

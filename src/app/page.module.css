@@ -1,0 +1,47 @@
+.container{
+  background-image: url("/assets/backgrounds/Mandragora\ bg.jpg");
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+    display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  gap: 156px;
+}
+
+.name{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--green-light);
+  width: 100%;
+  padding: 30px;
+}
+
+.name h1{
+  font-family: var(--font-title);
+  font-size: 48px;
+  font-weight: 400;
+}
+
+.name p{
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
+.start{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--brown);
+  color: var(--beige);
+  width: calc(100% - 60px);
+  padding: 15px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
