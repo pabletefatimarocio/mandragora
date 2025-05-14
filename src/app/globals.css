@@ -27,4 +27,12 @@ a {
   text-decoration: none;
 }
 
+input {
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
 
+button {
+  font-family: inherit;
+}

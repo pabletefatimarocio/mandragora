@@ -1,23 +1,34 @@
 import Link from "next/link";
 import styles from "./login.module.css";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
   return (
     <div className={styles.container}>
       <form className={styles.form}>
         <input type="text" placeholder="Email" />
-        <input type="password" placeholder="Contraseña" />
-        <Link href="/login" className={styles.forgot}>Olvidaste tu contraseña?</Link>
-        <button>Continuar</button>
+        <div>
+          <input type="password" placeholder="Contraseña" />
+          <span>          
+            <Link href="/login" >
+              Olvidaste tu contraseña?
+            </Link>
+          </span>
+        </div>
+        <div>
+          <button>Continuar</button>
+          <span>
+            No tienes una cuenta? <Link href="/signup" className={styles.signup}>Registrarse</Link>
+          </span>
+        </div>
       </form>
-      <div>
-        <span>No tienes una cuenta?</span>
-        <Link href="/signup">Registrarse</Link>
-      </div>
-      <div>
+      <div className={styles.o}>
         <span>o</span>
       </div>
-      <Link href="/login">Google</Link>
+      <Link href="/login" className={styles.googleBtn}>
+        <FcGoogle fontSize='30px'/>
+        Google
+      </Link>
     </div>
   );
 }
