@@ -18,7 +18,7 @@ export default function LoginPage() {
         <div>
           <button>Continuar</button>
           <span>
-            No tienes una cuenta? <Link href="/signup" className={styles.signup}>Registrarse</Link>
+            No tienes una cuenta? <Link href="/signup">Registrarse</Link>
           </span>
         </div>
       </form>
