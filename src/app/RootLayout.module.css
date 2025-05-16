@@ -1,0 +1,19 @@
+.rootLayout {
+  height: 740px;
+  width: 360px;
+  border: 4px double rgba(54, 39, 6, 0.5);
+  border-radius: 15px;
+  box-shadow: 0px 5px 10px 3px rgba(54, 39, 6, 0.2);
+  overflow: hidden;
+}
+
+@media (max-width: 500px) {
+  .rootLayout {
+    overflow: none;
+    box-shadow: none;
+    border-radius: none;
+    border: none;
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -1,5 +1,6 @@
 import { Fleur_De_Leah, Thasadith } from "next/font/google";
 import "./globals.css";
+import styles from "./RootLayout.module.css";
 
 const fontTitle = Fleur_De_Leah({
   variable: "--font-title",
@@ -9,7 +10,7 @@ const fontTitle = Fleur_De_Leah({
 
 const fontText = Thasadith({
   variable: "--font-text",
-  weight:["400", "700"],
+  weight: ["400", "700"],
   subsets: ["latin"],
 });
 
@@ -22,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${fontTitle.variable} ${fontText.variable}`}>
-        {children}
+        <div className={styles.rootLayout}>{children}</div>
       </body>
     </html>
   );
