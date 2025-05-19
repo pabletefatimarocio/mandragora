@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 30px 20px 30px;
+  overflow: scroll;
+}
+
+.head {
+  width: 100%;
+  height: 75px;
+}
+
+.shell {
+  width: 100%;
+  height: 100%;
+}
+
+.shell h1 {
+  font-family: var(--font-title);
+  font-weight: normal;
+  font-size: 36px;
+  color: var(--green); 
+}
+
+.shell h3 {
+  font-family: var(--font-text);
+  font-size: 14px;
+  color: var(--green);
+}
+
+.calendar {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.days {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.days span {
+  width: 35px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.card {
+  width: 35px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 10px;
+  background-color: var(--white);
+  font-family: var(--font-title);
+  font-size: 16px;
+}
+
+.newEntryBtn {
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 15px;
+  background-color: var(--brown);
+  color: var(--beige);
+  font-size: 20px;
+}

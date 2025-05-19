@@ -19,7 +19,7 @@ export default function Signup() {
       <div className={styles.o}> 
       <span>o</span>
       </div>
-      <Link href="/signup" className={styles.googleBtn}>
+      <Link href="/home" className={styles.googleBtn}>
         <FcGoogle fontSize='30px'/> Google
       </Link>
     </div>
