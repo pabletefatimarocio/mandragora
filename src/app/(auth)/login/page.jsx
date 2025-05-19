@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "./login.module.css";
+import styles from "./LoginPage.module.css";
 import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
@@ -25,7 +25,7 @@ export default function LoginPage() {
       <div className={styles.o}>
         <span>o</span>
       </div>
-      <Link href="/login" className={styles.googleBtn}>
+      <Link href="/home" className={styles.googleBtn}>
         <FcGoogle fontSize='30px'/>
         Google
       </Link>

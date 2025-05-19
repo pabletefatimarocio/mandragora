@@ -1,8 +1,8 @@
 import Link from "next/link";
-import styles from "./signup.module.css";
+import styles from "./SignupPage.module.css";
 import { FcGoogle } from "react-icons/fc";
 
-export default function Signup() {
+export default function SignupPage() {
   return (
     <div className={styles.container}>
       <form className={styles.form}>
@@ -19,7 +19,7 @@ export default function Signup() {
       <div className={styles.o}> 
       <span>o</span>
       </div>
-      <Link href="/signup" className={styles.googleBtn}>
+      <Link href="/home" className={styles.googleBtn}>
         <FcGoogle fontSize='30px'/> Google
       </Link>
     </div>

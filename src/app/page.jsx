@@ -1,8 +1,8 @@
 
 import Link from "next/link";
-import styles from "./page.module.css";
+import styles from "./LandingPage.module.css";
 
-export default function Landing() {
+export default function LandingPage() {
   return (
     <div className={styles.container}>
       <div className={styles.name}>
