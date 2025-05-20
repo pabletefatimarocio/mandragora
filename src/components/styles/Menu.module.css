@@ -1,0 +1,13 @@
+.containerMenu {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  font-size: 30px;
+}
+
+.homeVariant {
+  background-color: var(--green);
+  color: var(--beige);
+}
