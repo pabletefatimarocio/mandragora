@@ -1,5 +1,6 @@
 .container {
   height: 100%;
+  background-color: var(--beige);
   background-image: url("/assets/images/LOGO.png");
   background-position: 50% 70px;
   background-repeat: no-repeat;
