@@ -1,0 +1,13 @@
+.nav{
+    background-color: var(--green);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 30px;
+    color: var(--beige);
+}
+
+.nav a {
+    display: flex;
+}
