@@ -7,7 +7,7 @@ export default function NeedTag({ need }) {
     <div className={`${styles.container} ${styles[need]}`}>
       {need === 'agua' && <BsDropletFill className={styles.icon}/>}
       {need === 'fertilizante' && <GiPowderBag className={styles.icon}/>}
-      <h1>{need}</h1>
+      <span>{need}</span>
     </div>
   );
 }
