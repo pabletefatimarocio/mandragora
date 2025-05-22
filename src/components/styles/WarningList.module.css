@@ -1,0 +1,19 @@
+.container {
+  background-color: var(--white);
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: bold;  
+  margin-bottom: 15px;
+}
+
+.container hr {
+  margin: 10px 0px;
+}

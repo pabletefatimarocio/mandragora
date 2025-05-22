@@ -4,6 +4,10 @@
   padding: 0px 30px 20px 30px;
 }
 
+.container h1 {
+  margin-bottom: 5px;
+}
+
 .bgSvg {
   position: absolute;
   top: 0;
@@ -15,8 +19,7 @@
   fill: var(--green);
 }
 
-.welcome{
-    color: var(--beige);
-    font-size: 23px;
-
+.welcome {
+  color: var(--beige);
+  font-size: 23px;
 }

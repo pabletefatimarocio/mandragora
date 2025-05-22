@@ -1,0 +1,33 @@
+.container {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.image {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 60px;
+  width: 60px;
+}
+
+.content {
+  display: flex;
+  gap: 10px;
+}
+
+.text {
+  font-size: 10px;
+}
+
+.text h3 {
+  opacity: 0.6;
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+}
