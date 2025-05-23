@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 15px;
-  color: var(--beige);
+  color: var(--white);
   gap: 5px;
   height: 22px;
   padding: 0px 10px;
@@ -22,10 +22,30 @@
 .icon{
   font-size: 12px;
 }
-.agua {
+.regar {
   background-color: var(--blue);
 }
 
-.fertilizante {
+.fertilizar {
   background-color: var(--green-light);
+}
+
+@media (max-width:360px) {
+  .container span {
+    font-size: 10px;
+  }
+
+  .icon {
+    font-size: 10px;
+  }
+}
+
+@media (min-width:500px) {
+  .container span {
+    font-size: 10px;
+  }
+  
+  .icon {
+    font-size: 10px;
+  }  
 }

@@ -5,8 +5,10 @@ import Menu from "@/components/Menu.jsx";
 export default function MandragoraLayout({ children }) {
   return (
     <div className={styles.container}>
+      <div className={styles.scrollArea}>
       <Menu />
       {children}
+      </div>
       <Navbar />
     </div>
   );

@@ -15,8 +15,8 @@ export default function WarningItem({ plant }) {
           <h2>{plant.name}</h2>
           <h3>{plant.scientific}</h3>
           <div className={styles.tags}>
-            {plant.needs.map((need, i) => {
-              return <NeedTag need={need} />;
+            {plant.needs.map((need) => {
+              return <NeedTag need={need} key={need} />;
             })}
           </div>
         </div>
