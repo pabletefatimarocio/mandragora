@@ -1,13 +1,12 @@
 import Image from "next/image";
 import styles from "./MyPlantsPage.module.css";
+import CardsPlants from "@/components/CardsPlants";
 
 
 export default function MyPlantsPage() {
    return (
     <div className={styles.container}>
-      <div className={styles.image}>
-        <Image src="assets/backgrounds/planting tree-bro.png" alt="" fill />
-      </div>
+      <CardsPlants type="myplants"/>
     </div>
   );
 }

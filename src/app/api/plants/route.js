@@ -27,6 +27,37 @@ export async function GET(){
             scientific:'Iresine herbstii',
             img: 'https://www.plantasyhongos.es/herbarium/i/Iresine_herbstii_01b.jpg',
         },
+        {
+            id: 5,
+            name:'Jazmín',
+            scientific:'Jasminum',
+            img: 'https://azaleatiendabotanica.home.blog/wp-content/uploads/2020/09/gardenia-5097886_1920.jpg?w=1024',
+        },
+        {
+            id: 6,
+            name:'Amapola silvestre',
+            scientific:'Papaver rhoeas',
+            img: 'https://m.media-amazon.com/images/I/61JFejExUmL._AC_UF894,1000_QL80_.jpg',
+        },
+        {
+            id: 7,
+            name:'Sansevieria',
+            scientific:'Sansevieria',
+            img: 'https://phantom-elmundo.uecdn.es/1cf0b5241f5717cf941be61bb9a16472/resize/828/f/webp/assets/multimedia/imagenes/2023/01/13/16736014713489.jpg',
+        },
+        {
+            id: 8,
+            name:'Monstera',
+            scientific:'Monstera',
+            img: 'https://viverocuipo.com/cdn/shop/articles/monstera_deliciosa_panama.png?v=1662413766',
+        },
+        {
+            id: 9,
+            name:'Caracola Roja',
+            scientific:'Iresine herbstii',
+            img: 'https://www.plantasyhongos.es/herbarium/i/Iresine_herbstii_01b.jpg',
+        },
+
 
     ];
 

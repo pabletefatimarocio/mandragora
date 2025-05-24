@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./styles/CardPlant.module.css";
 import Image from "next/image";
 

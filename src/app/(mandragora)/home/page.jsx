@@ -16,7 +16,7 @@ export default function HomePage() {
         <Link href="/plants">Ver todas</Link>
       </div>
 
-      <CardsPlants />
+      <CardsPlants type="home"/>
 
       <Link href="/add" className={styles.button}>
         Nueva planta <AiOutlinePlus className={styles.iconPlus} />
