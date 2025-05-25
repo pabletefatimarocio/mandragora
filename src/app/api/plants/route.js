@@ -51,12 +51,6 @@ export async function GET(){
             scientific:'Monstera',
             img: 'https://viverocuipo.com/cdn/shop/articles/monstera_deliciosa_panama.png?v=1662413766',
         },
-        {
-            id: 9,
-            name:'Caracola Roja',
-            scientific:'Iresine herbstii',
-            img: 'https://www.plantasyhongos.es/herbarium/i/Iresine_herbstii_01b.jpg',
-        },
 
 
     ];

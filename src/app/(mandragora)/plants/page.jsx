@@ -5,8 +5,10 @@ import CardsPlants from "@/components/CardsPlants";
 
 export default function MyPlantsPage() {
    return (
+    
     <div className={styles.container}>
       <CardsPlants type="myplants"/>
     </div>
+    
   );
 }
