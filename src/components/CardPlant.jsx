@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function CardPlant({ plant }) {
   return (
-    <div className={styles.container}>
+    <Link href={`/details/${plant.id}`} className={styles.container}>
       <div className={styles.content}>
         <div className={styles.image}>
           <Image src={plant.img} alt="" fill />
@@ -14,6 +14,6 @@ export default function CardPlant({ plant }) {
           <h3>{plant.scientific}</h3>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
