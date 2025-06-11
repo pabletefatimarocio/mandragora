@@ -7,6 +7,7 @@ import { auth } from "@/lib/auth";
 
 export default async function HomePage() {
   const session = await auth();
+
   return (
     <div className={styles.container}>
       <div className={styles.warnings}>
