@@ -1,8 +1,22 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import GoogleBtn from "@/components/GoogleBtn";
 import styles from "./SignupPage.module.css";
-import { FcGoogle } from "react-icons/fc";
 
 export default function SignupPage() {
+  const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/home");
+    }
+  }, [status]);
+
   return (
     <div className={styles.container}>
       <form className={styles.form}>
@@ -11,17 +25,15 @@ export default function SignupPage() {
         <input type="password" placeholder="Confirmar contraseña"></input>
         <div>
           <button>Continuar</button>
-          <span >
+          <span>
             Ya tienes una cuenta? <Link href="/login">Ingresar</Link>
           </span>
         </div>
       </form>
-      <div className={styles.o}> 
-      <span>o</span>
+      <div className={styles.o}>
+        <span>o</span>
       </div>
-      <Link href="/home" className={styles.googleBtn}>
-        <FcGoogle fontSize='30px'/> Google
-      </Link>
+      <GoogleBtn />
     </div>
   );
 }

@@ -1,6 +1,7 @@
+import { SessionProvider } from "next-auth/react";
 import { Fleur_De_Leah, Thasadith } from "next/font/google";
-import "./globals.css";
 import styles from "./RootLayout.module.css";
+import "./globals.css";
 
 const fontTitle = Fleur_De_Leah({
   variable: "--font-title",
@@ -22,9 +23,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${fontTitle.variable} ${fontText.variable}`}>
-        <div className={styles.rootLayout}>{children}</div>
-      </body>
+      <SessionProvider>
+        <body className={`${fontTitle.variable} ${fontText.variable}`}>
+          <div className={styles.rootLayout}>{children}</div>
+        </body>
+      </SessionProvider>
     </html>
   );
 }

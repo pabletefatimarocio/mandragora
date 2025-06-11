@@ -1,18 +1,30 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import GoogleBtn from "@/components/GoogleBtn";
 import styles from "./LoginPage.module.css";
-import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/home");
+    }
+  }, [status]);
+
   return (
     <div className={styles.container}>
       <form className={styles.form}>
         <input type="text" placeholder="Email" />
         <div>
           <input type="password" placeholder="Contraseña" />
-          <span>          
-            <Link href="/login" >
-              Olvidaste tu contraseña?
-            </Link>
+          <span>
+            <Link href="/login">Olvidaste tu contraseña?</Link>
           </span>
         </div>
         <div>
@@ -25,10 +37,7 @@ export default function LoginPage() {
       <div className={styles.o}>
         <span>o</span>
       </div>
-      <Link href="/home" className={styles.googleBtn}>
-        <FcGoogle fontSize='30px'/>
-        Google
-      </Link>
+      <GoogleBtn />
     </div>
   );
 }

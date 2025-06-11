@@ -3,12 +3,14 @@ import styles from "./HomePage.module.css";
 import Link from "next/link";
 import CardsPlants from "@/components/CardsPlants";
 import { AiOutlinePlus } from "react-icons/ai";
+import { auth } from "@/lib/auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
   return (
     <div className={styles.container}>
       <div className={styles.warnings}>
-        <h1>Hola, Juan José</h1>
+        {session?.user && <h1>{`Hola, ${session.user.name.split(" ")[0]}`}</h1>}
         <WarningList />
       </div>
       <div className={styles.content}>
@@ -16,7 +18,7 @@ export default function HomePage() {
         <Link href="/plants">Ver todas</Link>
       </div>
 
-      <CardsPlants type="home"/>
+      <CardsPlants type="home" />
 
       <Link href="/add" className={styles.button}>
         Nueva planta <AiOutlinePlus className={styles.iconPlus} />
