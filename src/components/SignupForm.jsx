@@ -51,16 +51,12 @@ export default function SignupForm() {
       });
 
       if (res.ok) {
-        const resJSON = await res.json();
-
-        const user = resJSON.data;
-
         const resAuth = await signIn("credentials", {
-          ...user,
+          ...newUser,
           redirect: false,
         });
 
-        if (resAuth.ok) {
+        if (!resAuth.error) {
           router.push("/home");
         }
       } else {
