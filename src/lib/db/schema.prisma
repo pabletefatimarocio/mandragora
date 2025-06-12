@@ -19,6 +19,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  plants        Plant[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -61,4 +62,24 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+// MANDRAGORA
+
+model Plant {
+  id                 String     @id @default(cuid())
+  user_id            String
+  name               String     @unique
+  scientific         String?
+  watering           Int
+  waterings          DateTime[] @default([])
+  next_watering      DateTime?
+  fertilization      Int
+  fertilizations     DateTime[] @default([])
+  next_fertilization DateTime?
+
+  user User @relation(fields: [user_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
