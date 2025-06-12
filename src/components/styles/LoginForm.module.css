@@ -37,3 +37,15 @@
 .form a {
   font-weight: bold;
 }
+
+.errors {
+  align-self: center;
+  width: 90%;
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.errors li {
+  list-style-type: none;
+}
