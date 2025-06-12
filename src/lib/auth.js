@@ -2,8 +2,13 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
 import prisma from "./db";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
 export const { handlers, auth } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     Google,
     Credentials({
@@ -22,7 +27,6 @@ export const { handlers, auth } = NextAuth({
         });
 
         if (newUser) {
-          console.log("ACCESS");
           return newUser;
         } else {
           return null;
@@ -30,4 +34,12 @@ export const { handlers, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+      }
+      return session;
+    },
+  },
 });
