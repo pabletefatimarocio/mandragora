@@ -28,6 +28,8 @@ export default function LoginForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setErrors([]);
+
     const res = await signIn("credentials", {
       ...user,
       redirect: false,
