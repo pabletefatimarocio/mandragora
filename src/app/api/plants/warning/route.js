@@ -1,29 +1,72 @@
-import { NextResponse } from 'next/server';
+import { auth } from "@/lib/auth";
+import prisma from "@/lib/db";
+import { NextResponse } from "next/server";
 
 export async function GET() {
-  const warningPlants = [
-    {
-      id: 1,
-      name: 'Helecho Doméstico',
-      scientific: 'Nephrolepis exaltata',
-      needs: [ 'regar' ],
-      img: 'https://jardinjasmin.com/wp-content/uploads/2020/03/nephrolepsis-boston.png'
-    },
-    {
-      id: 2,
-      name: 'Caracola Roja',
-      scientific: 'Iresine herbstii',
-      needs: [ 'fertilizar' ],
-      img: 'https://www.plantasyhongos.es/herbarium/i/Iresine_herbstii_01b.jpg'
-    },
-    {
-      id: 3,
-      name: 'Jade',
-      scientific: 'Crassula Ovata',
-      needs: [ 'regar', 'fertilizar' ],
-      img: 'https://growsomething.ca/cdn/shop/files/PXL_20230704_215448408.PORTRAIT_2.jpg?v=1688557844&width=1946'
-    }
-  ];
+  try {
+    const session = await auth();
 
-  return NextResponse.json(warningPlants, { status: 200 });
+    const { user_id } = session;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const [wateringWarningPlants, fertilizationWarningPlants] =
+      await Promise.all([
+        prisma.plant.findMany({
+          where: {
+            user_id,
+            next_watering: {
+              lt: today,
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+            scientific: true,
+            img: true,
+          },
+        }),
+        prisma.plant.findMany({
+          where: {
+            user_id,
+            next_fertilization: {
+              lt: today,
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+            scientific: true,
+            img: true,
+          },
+        }),
+      ]);
+
+    const warningPlantsMap = new Map();
+
+    for (const plant of wateringWarningPlants) {
+      warningPlantsMap.set(plant.id, { ...plant, needs: ["regar"] });
+    }
+
+    for (const plant of fertilizationWarningPlants) {
+      if (warningPlantsMap.has(plant.id)) {
+        warningPlantsMap.get(plant.id).needs.push("fertilizar");
+      } else {
+        warningPlantsMap.set(plant.id, { ...plant, needs: ["fertilizar"] });
+      }
+    }
+
+    const warningPlants = Array.from(warningPlantsMap.values());
+
+    return NextResponse.json(warningPlants, { status: 200 });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.stack);
+    }
+    return NextResponse.json(
+      { error: error.message || "Internal server error" },
+      { status: 500 }
+    );
+  }
 }

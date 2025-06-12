@@ -71,6 +71,7 @@ model Plant {
   user_id            String
   name               String     @unique
   scientific         String?
+  img                String
   watering           Int
   waterings          DateTime[] @default([])
   next_watering      DateTime?
@@ -82,4 +83,6 @@ model Plant {
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+
+  @@index([user_id])
 }
