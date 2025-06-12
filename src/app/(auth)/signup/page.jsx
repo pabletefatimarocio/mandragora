@@ -1,35 +1,17 @@
-"use client";
-
-import { useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import SignupForm from "@/components/SignupForm";
 import GoogleBtn from "@/components/GoogleBtn";
 import styles from "./SignupPage.module.css";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function SignupPage() {
-  const router = useRouter();
-  const { status } = useSession();
+export default async function SignupPage() {
+  const session = await auth();
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/home");
-    }
-  }, [status]);
+  if (session) redirect("/home");
 
   return (
     <div className={styles.container}>
-      <form className={styles.form}>
-        <input type="text" placeholder="Email"></input>
-        <input type="password" placeholder="Contraseña"></input>
-        <input type="password" placeholder="Confirmar contraseña"></input>
-        <div>
-          <button>Continuar</button>
-          <span>
-            Ya tienes una cuenta? <Link href="/login">Ingresar</Link>
-          </span>
-        </div>
-      </form>
+      <SignupForm />
       <div className={styles.o}>
         <span>o</span>
       </div>

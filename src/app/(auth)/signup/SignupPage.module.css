@@ -12,46 +12,6 @@
   gap: 20px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-  width: calc(100% - 60px);
-}
-
-.form input {
-  height: 52px;
-  border-radius: 15px;
-  padding: 20px;
-  font-size: 20px;
-  color: var(--brown);
-}
-
-.form div {
-  display: flex;
-  flex-direction: column;
-}
-
-.form button {
-  height: 52px;
-  border: none;
-  border-radius: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--brown);
-  background-color: var(--green-light);
-}
-
-.form span {
-  margin-top: 5px;
-  padding-left: 10px;
-}
-
-.form a {
-  font-weight: bold;
-}
-
 .o {
   width: calc(100% - 80px);
   background-color: var(--brown);
