@@ -6,7 +6,14 @@ export async function GET() {
   try {
     const session = await auth();
 
-    const { user_id } = session;
+    const user_id = session.user.id;
+
+    if (!user_id) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 403 }
+      );
+    }
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
