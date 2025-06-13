@@ -9,10 +9,7 @@ export async function GET() {
     const user_id = session.user.id;
 
     if (!user_id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
     const today = new Date();
@@ -32,6 +29,8 @@ export async function GET() {
             name: true,
             scientific: true,
             img: true,
+            next_watering: true,
+            next_fertilization: true,
           },
         }),
         prisma.plant.findMany({
@@ -46,6 +45,8 @@ export async function GET() {
             name: true,
             scientific: true,
             img: true,
+            next_watering: true,
+            next_fertilization: true,
           },
         }),
       ]);
@@ -53,18 +54,34 @@ export async function GET() {
     const warningPlantsMap = new Map();
 
     for (const plant of wateringWarningPlants) {
-      warningPlantsMap.set(plant.id, { ...plant, needs: ["regar"] });
+      const { next_watering, next_fertilization, ...rest } = plant;
+
+      const urgency =
+        next_watering < next_fertilization ? next_watering : next_fertilization;
+
+      warningPlantsMap.set(plant.id, { ...rest, urgency, needs: ["regar"] });
     }
 
     for (const plant of fertilizationWarningPlants) {
       if (warningPlantsMap.has(plant.id)) {
         warningPlantsMap.get(plant.id).needs.push("fertilizar");
       } else {
-        warningPlantsMap.set(plant.id, { ...plant, needs: ["fertilizar"] });
+        const { next_watering, next_fertilization, ...rest } = plant;
+
+        const urgency =
+          next_watering < next_fertilization
+            ? next_watering
+            : next_fertilization;
+
+        warningPlantsMap.set(plant.id, {
+          ...rest,
+          urgency,
+          needs: ["fertilizar"],
+        });
       }
     }
 
-    const warningPlants = Array.from(warningPlantsMap.values());
+    const warningPlants = Array.from(warningPlantsMap.values()).sort((a, b) => a.urgency - b.urgency);
 
     return NextResponse.json(warningPlants, { status: 200 });
   } catch (error) {
