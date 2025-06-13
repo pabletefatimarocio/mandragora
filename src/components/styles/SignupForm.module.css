@@ -27,6 +27,7 @@
   font-weight: bold;
   color: var(--brown);
   background-color: var(--green-light);
+  cursor: pointer;
 }
 
 .form span {

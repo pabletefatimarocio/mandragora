@@ -1,6 +1,7 @@
 .container {
   background: none;
   border: none;
-  color: rgb(212, 49, 49);
+  color: var(--green-light);
   font-size: 20px;
+  cursor: pointer;
 }
