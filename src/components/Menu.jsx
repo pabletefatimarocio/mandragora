@@ -2,7 +2,8 @@
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { usePathname } from "next/navigation";
-import SignoutBtn from "./SignoutBtn";
+// import SignoutBtn from "./SignoutBtn";
+// import HardDeleteBtn from "./HardDeleteBtn";
 import styles from "./styles/Menu.module.css";
 
 export default function Menu() {
@@ -18,7 +19,9 @@ export default function Menu() {
         <RxHamburgerMenu />
       </div>
 
-      <SignoutBtn />
+      {/* <HardDeleteBtn /> */}
+
+      {/* <SignoutBtn /> */}
     </div>
   );
 }

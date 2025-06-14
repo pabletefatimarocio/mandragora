@@ -1,5 +1,6 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
+import { faker } from "@faker-js/faker";
 
 const plants = [
   {
@@ -176,10 +177,27 @@ export async function POST(request) {
       createdPlants.push(newMockPlant);
     }
 
-    // ADD_MOCK_TAGS
+    // NOTES & TAGS
     for (const plant of createdPlants) {
+      // CREATE NOTES
+      for (let i = 0; i < Math.ceil(Math.random() * 5) + 1; i++) {
+        const content = faker.lorem.paragraph();
+        const created_at = faker.date.past();
+        const updated_at = created_at;
+
+        await prisma.note.create({
+          data: {
+            plant_id: plant.id,
+            content,
+            created_at,
+            updated_at,
+          },
+        });
+      }
+
+      // ADD MOCK TAGS
       for (const tag of createdTags) {
-        if (Math.random() > 0.6) {
+        if (Math.random() > 0.5) {
           await prisma.plant.update({
             where: {
               id: plant.id,
@@ -205,6 +223,11 @@ export async function POST(request) {
           omit: {
             user_id: true,
             updated_at: true,
+          },
+        },
+        notes: {
+          omit: {
+            plant_id: true,
           },
         },
       },
