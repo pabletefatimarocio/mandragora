@@ -19,11 +19,26 @@ export async function GET(request, { params }) {
         id,
         user_id,
       },
+      include: {
+        notes: {
+          omit: {
+            plant_id: true,
+          },
+        },
+        tags: {
+          omit: {
+            user_id: true,
+            updated_at: true,
+          },
+        },
+      },
     });
 
     if (!plantDetails) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
+
+    console.log(plantDetails);
 
     return NextResponse.json(plantDetails, { status: 200 });
   } catch (error) {

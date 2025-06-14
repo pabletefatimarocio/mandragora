@@ -61,9 +61,46 @@ const plants = [
   },
 ];
 
+const tags = [
+  {
+    name: "Sol indirecto",
+    color: "#247F89",
+  },
+  {
+    name: "Agua de plátano",
+    color: "#897D24",
+  },
+  {
+    name: "Estopa de coco",
+    color: "#5C8924",
+  },
+  {
+    name: "Podar las hojas secas",
+    color: "#612489",
+  },
+  {
+    name: "Buen drenaje",
+    color: "#892424",
+  },
+];
+
 export async function POST(request) {
   try {
     const { user_id } = await request.json();
+
+    // MOCK TAGS
+    const createdTags = [];
+    for (const tag of tags) {
+      const newTag = await prisma.tag.create({
+        data: {
+          user_id,
+          name: tag.name,
+          color: tag.color,
+        },
+      });
+
+      createdTags.push(newTag);
+    }
 
     const FULL_DAY_TIME = 86400000;
     const TODAY = new Date().getTime();
@@ -139,7 +176,41 @@ export async function POST(request) {
       createdPlants.push(newMockPlant);
     }
 
-    return NextResponse.json(createdPlants, { status: 201 });
+    // ADD_MOCK_TAGS
+    for (const plant of createdPlants) {
+      for (const tag of createdTags) {
+        if (Math.random() > 0.6) {
+          await prisma.plant.update({
+            where: {
+              id: plant.id,
+            },
+            data: {
+              tags: {
+                connect: {
+                  id: tag.id,
+                },
+              },
+            },
+          });
+        }
+      }
+    }
+
+    const mockedPlants = await prisma.plant.findMany({
+      where: {
+        user_id,
+      },
+      include: {
+        tags: {
+          omit: {
+            user_id: true,
+            updated_at: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(mockedPlants, { status: 201 });
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.stack);
