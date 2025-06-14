@@ -1,6 +1,7 @@
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 import { faker } from "@faker-js/faker";
+import { auth } from "@/lib/auth";
 
 const plants = [
   {
@@ -85,9 +86,26 @@ const tags = [
   },
 ];
 
-export async function POST(request) {
+export async function POST() {
   try {
-    const { user_id } = await request.json();
+    const session = await auth();
+    const user_id = session.user.id;
+    // const { user_id } = await request.json();
+
+    // VERIFY POPULATION
+    const previousPlant = await prisma.plant.findFirst({
+      where: {
+        name: plants[0].name,
+        scientific: plants[0].scientific,
+      },
+    });
+
+    if (previousPlant) {
+      return NextResponse.json(
+        { error: "Mock plants already planted" },
+        { status: 400 }
+      );
+    }
 
     // MOCK TAGS
     const createdTags = [];
