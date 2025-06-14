@@ -38,8 +38,6 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    console.log(plantDetails);
-
     return NextResponse.json(plantDetails, { status: 200 });
   } catch (error) {
     if (error instanceof Error) {

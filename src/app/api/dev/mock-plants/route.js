@@ -10,6 +10,9 @@ const plants = [
     watering: 3,
     fertilization: 15,
     img: "https://jardinjasmin.com/wp-content/uploads/2020/03/nephrolepsis-boston.png",
+    location_type: "Exterior",
+    location_place: "Balcón trasero",
+    under_rain: true,
   },
 
   {
@@ -18,6 +21,9 @@ const plants = [
     watering: 7,
     fertilization: 18,
     img: "https://hips.hearstapps.com/hmg-prod/images/gettyimages-173230110-64c785f97fe37.jpg",
+    location_type: "Exterior",
+    location_place: "Jardín",
+    under_rain: true,
   },
   {
     name: "Jade",
@@ -25,6 +31,9 @@ const plants = [
     watering: 15,
     fertilization: 20,
     img: "https://growsomething.ca/cdn/shop/files/PXL_20230704_215448408.PORTRAIT_2.jpg?v=1688557844&width=1946",
+    location_type: "Exterior",
+    location_place: "Ventana",
+    under_rain: false,
   },
   {
     name: "Caracola Roja",
@@ -32,6 +41,9 @@ const plants = [
     watering: 6,
     fertilization: 30,
     img: "https://www.plantasyhongos.es/herbarium/i/Iresine_herbstii_01b.jpg",
+    location_type: "Interior",
+    location_place: "Junto a la ventana",
+    under_rain: false,
   },
   {
     name: "Jazmín",
@@ -39,6 +51,9 @@ const plants = [
     watering: 2,
     fertilization: 15,
     img: "https://azaleatiendabotanica.home.blog/wp-content/uploads/2020/09/gardenia-5097886_1920.jpg?w=1024",
+    location_type: "Exterior",
+    location_place: "Vereda",
+    under_rain: true,
   },
   {
     name: "Amapola silvestre",
@@ -46,6 +61,9 @@ const plants = [
     watering: 10,
     fertilization: 15,
     img: "https://m.media-amazon.com/images/I/61JFejExUmL._AC_UF894,1000_QL80_.jpg",
+    location_type: "Exterior",
+    location_place: "Balcón delantero",
+    under_rain: false,
   },
   {
     name: "Sansevieria",
@@ -53,6 +71,9 @@ const plants = [
     watering: 8,
     fertilization: 18,
     img: "https://phantom-elmundo.uecdn.es/1cf0b5241f5717cf941be61bb9a16472/resize/828/f/webp/assets/multimedia/imagenes/2023/01/13/16736014713489.jpg",
+    location_type: "Exterior",
+    location_place: "Garaje",
+    under_rain: false,
   },
   {
     name: "Cerimán",
@@ -60,6 +81,9 @@ const plants = [
     watering: 4,
     fertilization: 30,
     img: "https://viverocuipo.com/cdn/shop/articles/monstera_deliciosa_panama.png?v=1662413766",
+    location_type: "Interior",
+    location_place: "Baño",
+    under_rain: false,
   },
 ];
 
@@ -189,6 +213,9 @@ export async function POST() {
           fertilization: plant.fertilization,
           fertilizations,
           next_fertilization,
+          location_type: plant.location_type,
+          location_place: plant.location_place,
+          under_rain: plant.under_rain,
         },
       });
 

@@ -78,6 +78,9 @@ model Plant {
   fertilization      Int
   fertilizations     DateTime[] @default([])
   next_fertilization DateTime?
+  location_type      String?
+  location_place     String?
+  under_rain         Boolean    @default(false)
   user               User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
   tags               Tag[]
   notes              Note[]
