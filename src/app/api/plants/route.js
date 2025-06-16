@@ -2,11 +2,12 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { v2 as cloudinary } from "cloudinary";
+import env from "@/env";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: env.CLOUDINARY_CLOUD_NAME,
+  api_key: env.CLOUDINARY_API_KEY,
+  api_secret: env.CLOUDINARY_API_SECRET,
 });
 
 export async function GET() {
@@ -91,7 +92,7 @@ export async function POST(request) {
     try {
       const result = await cloudinary.uploader.upload(imageFile.file, {
         public_id,
-        folder: process.env.CLOUDINARY_FOLDER,
+        folder: env.CLOUDINARY_FOLDER,
       });
 
       newImage.img = result.secure_url;
@@ -130,7 +131,7 @@ export async function POST(request) {
     }
 
     await cloudinary.uploader.destroy(
-      `${process.env.CLOUDINARY_FOLDER}/${imageFile.name}`
+      `${env.CLOUDINARY_FOLDER}/${imageFile.name}`
     );
 
     return NextResponse.json(
