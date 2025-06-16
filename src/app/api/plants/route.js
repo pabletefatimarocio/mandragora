@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function GET() {
   try {
@@ -42,7 +49,15 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  // BODY CHECK
+  const { name, scientific, imageFile, watering, fertilization } =
+    await request.json();
+
+  if (!name || !scientific || !imageFile.file || !watering || !fertilization) {
+    return NextResponse.json({ error: "Missing form fields" }, { status: 500 });
+  }
   try {
+    // SESSION USER_ID CHECK
     const session = await auth();
 
     const user_id = session.user.id;
@@ -51,22 +66,15 @@ export async function POST(request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    const {
-      name,
-      scientific,
-      img,
-      watering,
-      fertilization
-    } = await request.json();
-
-    const foundPlant = await prisma.plant.findUnique({
+    // PLANT PREVIOUS EXISTANCE CHECK
+    const foundPlant = await prisma.plant.findFirst({
       where: {
         user_id,
-        name
+        name,
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     if (foundPlant) {
@@ -76,17 +84,40 @@ export async function POST(request) {
       );
     }
 
+    // CLOUDINARY IMAGE UPLOAD
+    const public_id = imageFile.name.split(".").slice(0, -1).join(".");
+    const newImage = {};
+
+    try {
+      const result = await cloudinary.uploader.upload(imageFile.file, {
+        public_id,
+        folder: process.env.CLOUDINARY_FOLDER,
+      });
+
+      newImage.img = result.secure_url;
+      newImage.img_width = result.width;
+      newImage.img_height = result.height;
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json({ error }, { status: 500 });
+    }
+
+    const { img, img_width, img_height } = newImage;
+
     const newPlant = await prisma.plant.create({
       data: {
+        user_id,
         name,
         scientific,
         img,
-        watering,
-        fertilization
+        img_width,
+        img_height,
+        watering: Number(watering),
+        fertilization: Number(fertilization),
       },
       select: {
-        id: true
-      }
+        id: true,
+      },
     });
 
     return NextResponse.json(
@@ -97,6 +128,10 @@ export async function POST(request) {
     if (error instanceof Error) {
       console.error(error.stack);
     }
+
+    await cloudinary.uploader.destroy(
+      `${process.env.CLOUDINARY_FOLDER}/${imageFile.name}`
+    );
 
     return NextResponse.json(
       { error: error.message || "Internal server error" },

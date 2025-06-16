@@ -72,6 +72,8 @@ model Plant {
   name               String
   scientific         String?
   img                String
+  img_width          Int
+  img_height         Int
   watering           Int
   waterings          DateTime[] @default([])
   next_watering      DateTime?
