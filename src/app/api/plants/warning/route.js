@@ -13,7 +13,10 @@ export async function GET() {
     }
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const todayDate = today.getDate();
+    const tomorrow = today;
+    tomorrow.setDate(todayDate + 1);
+    tomorrow.setHours(0, 0, 0, 0);
 
     const [wateringWarningPlants, fertilizationWarningPlants] =
       await Promise.all([
@@ -21,7 +24,7 @@ export async function GET() {
           where: {
             user_id,
             next_watering: {
-              lt: today,
+              lt: tomorrow,
             },
           },
           select: {
@@ -37,7 +40,7 @@ export async function GET() {
           where: {
             user_id,
             next_fertilization: {
-              lt: today,
+              lt: tomorrow,
             },
           },
           select: {
@@ -81,7 +84,9 @@ export async function GET() {
       }
     }
 
-    const warningPlants = Array.from(warningPlantsMap.values()).sort((a, b) => a.urgency - b.urgency);
+    const warningPlants = Array.from(warningPlantsMap.values()).sort(
+      (a, b) => a.urgency - b.urgency
+    );
 
     return NextResponse.json(warningPlants, { status: 200 });
   } catch (error) {

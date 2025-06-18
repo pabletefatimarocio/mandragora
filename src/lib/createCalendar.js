@@ -28,11 +28,21 @@ export function createCalendar(year, month) {
         calendar[i].push({
           day: count,
           outline: "today",
+          events: {
+            water: false,
+            fertilize: false,
+            plants: [],
+          },
         });
       } else {
         calendar[i].push({
           day: count,
           outline: monthCursor === "current" ? "inside" : "outside",
+          events: {
+            water: false,
+            fertilize: false,
+            plants: [],
+          },
         });
       }
 
