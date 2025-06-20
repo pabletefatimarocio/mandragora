@@ -18,3 +18,12 @@
   margin: 10px 0px;
   opacity: 0.3;  
 }
+
+.noWarnings{
+  text-align: center;
+  opacity: 0.5;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px;
+}

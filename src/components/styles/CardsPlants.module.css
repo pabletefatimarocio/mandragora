@@ -1,7 +1,15 @@
-.container {
+.container {  
   display: flex;
+  flex-grow: 1;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 17px;
+}
+
+.plantImage{
+  position: relative;
+  width: 40%;
+  aspect-ratio: 1/1.817;
+  opacity: 0.6;
 }

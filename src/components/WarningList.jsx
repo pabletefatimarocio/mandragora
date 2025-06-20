@@ -20,6 +20,7 @@ export default function WarningList() {
         <PiSealWarningFill />
         <span>Necesitan tu cuidado</span>
       </div>
+      {warnings.length === 0 && <p className={styles.noWarnings}>No hay plantas por regar ni fertilizar</p>}
       {warnings.map((item, i) => {
         return (
           <div key={item.id}>
