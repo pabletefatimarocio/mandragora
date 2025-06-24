@@ -1,18 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import styles from "./styles/WarningList.module.css";
+import useWarnings from "@/hooks/useWarnings";
 import WarningItem from "./WarningItem";
 import { PiSealWarningFill } from "react-icons/pi";
 
 export default function WarningList() {
-  const [warnings, setWarnings] = useState([]);
+  const { warnings, isLoading, error } = useWarnings();
 
-  useEffect(() => {
-    fetch("/api/plants/warning")
-      .then((res) => res.json())
-      .then((resJSON) => setWarnings(resJSON));
-  }, []);
+  if (isLoading) return <div>LOADING...</div>;
+
+  if (error) return <div>ERROR</div>
 
   return (
     <div className={styles.container}>
