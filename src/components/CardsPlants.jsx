@@ -1,24 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import CardPlant from "./CardPlant.jsx";
 import Image from "next/image";
+import useCardsPlants from "@/hooks/useCardsPLants.js";
 import styles from "./styles/CardsPlants.module.css";
 
 export default function CardsPlants({ type }) {
-  const [cardsPlants, setCardsPlants] = useState([]);
+  const { cardsPlants, isLoading, error} = useCardsPlants();
 
-  useEffect(() => {
-    fetch("/api/plants")
-      .then((res) => res.json())
-      .then((resJSON) => {
-        if (type === "home") {
-          setCardsPlants(resJSON.slice(0, 4));
-        } else if (type === "myplants") {
-          setCardsPlants(resJSON);
-        }
-      });
-  }, []);
+  if (isLoading) return <div>Cargando...</div>;
+  if (error) return <div>ERROR</div>;
+ 
 
   return (
     <div className={styles.container}>

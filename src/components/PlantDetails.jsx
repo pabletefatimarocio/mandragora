@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import styles from "./styles/PlantDetails.module.css";
 import Image from "next/image";
 import { PiPottedPlantFill } from "react-icons/pi";
@@ -8,6 +7,7 @@ import { GiPowderBag } from "react-icons/gi";
 import { BsDropletFill } from "react-icons/bs";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { PiPencilLight } from "react-icons/pi";
+import usePlantDetails from "@/hooks/usePlantDetails";
 
 const plantInitialState = {
   img: "",
@@ -24,17 +24,12 @@ const plantInitialState = {
 };
 
 export default function PlantDetails({ id }) {
-  const [plant, setPlant] = useState(plantInitialState);
+  
 
-  useEffect(() => {
-    fetch(`/api/plants/details/${id}`)
-      .then((res) => res.json())
-      .then((resJSON) => {
-        return setPlant(resJSON);
-      });
-  }, []);
+  const { plant, isLoading, error } = usePlantDetails(id);
 
-  if (plant.name === "") return <div>LOADING...</div>;
+  if (isLoading) return <div>CARGANDO... </div>;
+  if (error) return <div>ERROR</div>;
 
   const lastWatering = new Date(
     plant.waterings[plant.waterings.length - 1]
