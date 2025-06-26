@@ -2,7 +2,7 @@
 
 import CardPlant from "./CardPlant.jsx";
 import Image from "next/image";
-import useCardsPlants from "@/hooks/useCardsPLants.js";
+import useCardsPlants from "@/hooks/swr/useCardsPLants.js";
 import styles from "./styles/CardsPlants.module.css";
 
 export default function CardsPlants({ type }) {

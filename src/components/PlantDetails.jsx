@@ -7,7 +7,7 @@ import { GiPowderBag } from "react-icons/gi";
 import { BsDropletFill } from "react-icons/bs";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { PiPencilLight } from "react-icons/pi";
-import usePlantDetails from "@/hooks/usePlantDetails";
+import usePlantDetails from "@/hooks/swr/usePlantDetails";
 
 const plantInitialState = {
   img: "",

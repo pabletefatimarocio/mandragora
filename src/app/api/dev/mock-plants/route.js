@@ -135,6 +135,7 @@ export async function POST() {
     // VERIFY POPULATION
     const previousPlant = await prisma.plant.findFirst({
       where: {
+        user_id,
         name: plants[0].name,
         scientific: plants[0].scientific,
       },

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./styles/WarningList.module.css";
-import useWarnings from "@/hooks/useWarnings";
+import useWarnings from "@/hooks/swr/useWarnings";
 import WarningItem from "./WarningItem";
 import { PiSealWarningFill } from "react-icons/pi";
 
