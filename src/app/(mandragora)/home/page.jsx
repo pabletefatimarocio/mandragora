@@ -10,15 +10,14 @@ export default async function HomePage() {
 
   return (
     <div className={styles.container}>
+      {session?.user && (
+        <h1 className={styles.welcome}>{`Hola, ${
+          session.user.name.split(" ")[0]
+        }`}</h1>
+      )}
       <div className={styles.content}>
-        <div className={styles.warnings}>
-          {session?.user && (
-            <h1 className={styles.welcome}>{`Hola, ${
-              session.user.name.split(" ")[0]
-            }`}</h1>
-          )}
-          <WarningList />
-        </div>
+        <WarningList />
+
         <div className={styles.myplants}>
           <div className={styles.myplantsTitle}>
             <h1>Mis plantas</h1>
