@@ -1,0 +1,31 @@
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 1/1.4;
+  background-color: var(--white);
+  border-radius: 10px;
+}
+
+.day {
+  font-family: var(--font-title);
+}
+
+.outside {
+  opacity: 0.5;
+}
+
+.today {
+  border: 2px solid var(--green-light);
+  font-weight: bold;
+  color: var(--green-light);
+}
+
+.drop {
+  color: var(--blue);
+}
+
+.bag {
+  color: var(--green-light);
+}

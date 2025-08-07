@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.date {
+  text-transform: capitalize;
+}
+
+.weekDays {
+  display: flex;
+  justify-content: space-between;
+}
+
+.weekDays p {
+  width: 100%;
+  text-align: center;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.calendarRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 9px;
+}
+
+.legends {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.2rem;
+}
+
+.waterIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.fertilizerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  background-color: var(--green-light);
+  color: var(--white);
+}

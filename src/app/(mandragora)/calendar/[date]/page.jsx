@@ -1,3 +1,5 @@
+import Calendar from "@/components/Calendar";
+
 import styles from "./CalendarPage.module.css";
 
 export default async function CalendarPage({ params }) {
@@ -5,7 +7,10 @@ export default async function CalendarPage({ params }) {
 
   return (
     <div className={styles.container}>
-      <h1>{date}</h1>
+      <div className={styles.title}>
+        <h1>Calendario</h1>
+      </div>
+      <Calendar date={date} />      
     </div>
   );
 }
