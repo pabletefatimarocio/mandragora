@@ -3,6 +3,7 @@ import styles from "./styles/WarningItem.module.css";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import NeedTag from "@/components/NeedTag.jsx";
+import dateFormater from "@/utils/dateFormater";
 
 export default function WarningItem({ plant }) {
   return (
@@ -21,7 +22,7 @@ export default function WarningItem({ plant }) {
           </div>
         </div>
       </div>
-      <Link href="/calendar">
+      <Link href={`/calendar/${dateFormater(plant.urgency)}`}>
         <IoIosArrowForward />
       </Link>
     </div>

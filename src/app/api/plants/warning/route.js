@@ -18,49 +18,47 @@ export async function GET() {
     tomorrow.setDate(todayDate + 1);
     tomorrow.setHours(0, 0, 0, 0);
 
-    const [wateringWarningPlants, fertilizationWarningPlants] =
-      await Promise.all([
-        prisma.plant.findMany({
-          where: {
-            user_id,
-            next_watering: {
-              lt: tomorrow,
-            },
+    const [wateringWarningPlants, fertilizationWarningPlants] = await Promise.all([
+      prisma.plant.findMany({
+        where: {
+          user_id,
+          next_watering: {
+            lt: tomorrow,
           },
-          select: {
-            id: true,
-            name: true,
-            scientific: true,
-            img: true,
-            next_watering: true,
-            next_fertilization: true,
+        },
+        select: {
+          id: true,
+          name: true,
+          scientific: true,
+          img: true,
+          next_watering: true,
+          next_fertilization: true,
+        },
+      }),
+      prisma.plant.findMany({
+        where: {
+          user_id,
+          next_fertilization: {
+            lt: tomorrow,
           },
-        }),
-        prisma.plant.findMany({
-          where: {
-            user_id,
-            next_fertilization: {
-              lt: tomorrow,
-            },
-          },
-          select: {
-            id: true,
-            name: true,
-            scientific: true,
-            img: true,
-            next_watering: true,
-            next_fertilization: true,
-          },
-        }),
-      ]);
+        },
+        select: {
+          id: true,
+          name: true,
+          scientific: true,
+          img: true,
+          next_watering: true,
+          next_fertilization: true,
+        },
+      }),
+    ]);
 
     const warningPlantsMap = new Map();
 
     for (const plant of wateringWarningPlants) {
       const { next_watering, next_fertilization, ...rest } = plant;
 
-      const urgency =
-        next_watering < next_fertilization ? next_watering : next_fertilization;
+      const urgency = next_watering < next_fertilization ? next_watering : next_fertilization;
 
       warningPlantsMap.set(plant.id, { ...rest, urgency, needs: ["regar"] });
     }
@@ -71,10 +69,7 @@ export async function GET() {
       } else {
         const { next_watering, next_fertilization, ...rest } = plant;
 
-        const urgency =
-          next_watering < next_fertilization
-            ? next_watering
-            : next_fertilization;
+        const urgency = next_watering < next_fertilization ? next_watering : next_fertilization;
 
         warningPlantsMap.set(plant.id, {
           ...rest,
@@ -84,18 +79,15 @@ export async function GET() {
       }
     }
 
-    const warningPlants = Array.from(warningPlantsMap.values()).sort(
-      (a, b) => a.urgency - b.urgency
-    );
+    const warningPlants = Array.from(warningPlantsMap.values()).sort((a, b) => a.urgency - b.urgency);
+
+    console.log(warningPlants);
 
     return NextResponse.json(warningPlants, { status: 200 });
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.stack);
     }
-    return NextResponse.json(
-      { error: error.message || "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
   }
 }

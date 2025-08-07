@@ -6,7 +6,13 @@ export async function GET(_request, { params }) {
   try {
     const { date } = await params;
 
-    const rawDate = new Date(date);
+    const validDate = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/.test(date);
+
+    if (!validDate) throw new Error("Invalid Date");
+
+    const [dd, mm, yyyy] = date.split("-");
+
+    const rawDate = new Date(+yyyy, +mm - 1, +dd);
     const year = rawDate.getFullYear();
     const month = rawDate.getMonth();
 
@@ -54,8 +60,7 @@ export async function GET(_request, { params }) {
 
     for (const plant of fertilizePlants) {
       if (plantsInNeedMap.has(plant.id)) {
-        plantsInNeedMap.get(plant.id).next_fertilization =
-          plant.next_fertilization;
+        plantsInNeedMap.get(plant.id).next_fertilization = plant.next_fertilization;
       } else {
         plantsInNeedMap.set(plant.id, { ...plant });
       }
@@ -107,9 +112,6 @@ export async function GET(_request, { params }) {
       console.error(error.stack);
     }
 
-    return NextResponse.json(
-      { error: error.message || "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
   }
 }
