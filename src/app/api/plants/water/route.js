@@ -22,9 +22,7 @@ export async function PUT(request) {
     });
 
     const waterings = [...foundPlant.waterings, new Date()];
-    const next_watering = new Date(
-      new Date().getTime() + foundPlant.watering * 1000 * 60 * 60 * 24
-    );
+    const next_watering = new Date(new Date().getTime() + foundPlant.watering * 1000 * 60 * 60 * 24);
 
     await prisma.plant.update({
       where: {
@@ -37,18 +35,12 @@ export async function PUT(request) {
       },
     });
 
-    return NextResponse.json(
-      { message: "Plant successfully watered" },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: "Plant successfully watered" }, { status: 200 });
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.stack);
     }
 
-    return NextResponse.json(
-      { error: error.message || "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
   }
 }

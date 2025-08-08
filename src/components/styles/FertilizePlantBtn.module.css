@@ -1,0 +1,53 @@
+.fertilizeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  aspect-ratio: 1/1;
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  color: var(--green-light);
+}
+
+.panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid var(--green-light);
+  border-radius: 5px;
+  background-color: var(--white);
+  padding: 5px;
+  gap: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+}
+
+/* .panelText {} */
+.panelButtons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10%;
+}
+.yesBtn {
+  height: 20px;
+  aspect-ratio: 2/1;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--green-light);
+  color: var(--beige);
+  font-weight: bold;
+}
+.noBtn {
+  height: 20px;
+  aspect-ratio: 2/1;
+  border: 2px solid var(--green-light);
+  border-radius: 5px;
+  background-color: var(--white);
+  color: var(--green-light);
+  font-weight: bold;
+}

@@ -16,9 +16,18 @@ export function createCalendar(year, month) {
   const calendar = [[], [], [], [], [], []];
   for (let i = 0; i < calendar.length; i++) {
     for (let j = 0; j < 7; j++) {
+      let tileMonth = month;
+      if (monthCursor === "previous") {
+        tileMonth = month;
+      } else if (monthCursor === "next") {
+        tileMonth = month + 2;
+      } else if (monthCursor === "current") {
+        tileMonth = month + 1;
+      }
+
       if (today.getMonth() === month && today.getDate() === count && monthCursor === "current") {
         calendar[i].push({
-          month: monthCursor,
+          month: tileMonth,
           day: count,
           outline: "today",
           events: {
@@ -29,7 +38,7 @@ export function createCalendar(year, month) {
         });
       } else {
         calendar[i].push({
-          month: monthCursor,
+          month: tileMonth,
           day: count,
           outline: monthCursor === "current" ? "inside" : "outside",
           events: {

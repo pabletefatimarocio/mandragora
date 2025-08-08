@@ -20,13 +20,14 @@
   border-radius: 10px;
   background-color: var(--beige);
   padding: 20px;
+  padding-top: 30px;
   width: 80%;
 }
 
 .closeBtn {
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 5px;
+  right: 5px;
   width: 20px;
   aspect-ratio: 1/1;
   display: flex;
@@ -39,7 +40,16 @@
   font-size: 1rem;
 }
 
+.noEventsMsg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--brown);
+  font-weight: bold;
+}
+
 .item {
+  position: relative;
   display: flex;
   justify-content: space-between;
 }
@@ -76,4 +86,8 @@
 .plantScientific {
   font-size: 0.8rem;
   font-style: italic;
+}
+
+.buttons {
+  display: flex;
 }

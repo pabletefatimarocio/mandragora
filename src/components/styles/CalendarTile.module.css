@@ -2,14 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  padding: 5px;
   width: 100%;
   aspect-ratio: 1/1.4;
   background-color: var(--white);
   border-radius: 10px;
-}
-
-.day {
-  font-family: var(--font-title);
+  cursor: pointer;
 }
 
 .cursor {
@@ -36,6 +35,16 @@
   border: 2px solid var(--green-light);
   font-weight: bold;
   color: var(--green-light);
+}
+
+.day {
+  font-family: var(--font-title);
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .drop {
