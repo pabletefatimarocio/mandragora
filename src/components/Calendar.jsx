@@ -12,8 +12,6 @@ export default function Calendar({ date }) {
   if (isLoading) return <div>Cargando...</div>;
   if (error) return <div>ERROR</div>;
 
-  console.log(calendar);
-
   return (
     <div className={styles.container}>
       <span className={styles.date}>
@@ -29,7 +27,7 @@ export default function Calendar({ date }) {
           {calendar.calendar.map((row, i) => (
             <div key={i} className={styles.calendarRow}>
               {row.map((tile, j) => (
-                <CalendarTile key={`${j}${tile.day}`} tile={tile} />
+                <CalendarTile key={`${j}${tile.day}`} tile={tile} date={date} />
               ))}
             </div>
           ))}

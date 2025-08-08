@@ -3,9 +3,10 @@ import styles from "./styles/WarningItem.module.css";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import NeedTag from "@/components/NeedTag.jsx";
-import dateFormater from "@/utils/dateFormater";
+import dateFormater from "@/lib/dateFormater";
 
 export default function WarningItem({ plant }) {
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>

@@ -1,9 +1,18 @@
+import { auth } from "@/lib/auth";
 import { createCalendar } from "@/lib/createCalendar";
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET(_request, { params }) {
   try {
+    const session = await auth();
+
+    const user_id = session.user.id;
+
+    if (!user_id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
     const { date } = await params;
 
     const validDate = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/.test(date);
@@ -22,6 +31,7 @@ export async function GET(_request, { params }) {
     const [waterPlants, fertilizePlants] = await Promise.all([
       prisma.plant.findMany({
         where: {
+          user_id,
           next_watering: {
             gt: minDate,
             lt: maxDate,
@@ -37,6 +47,7 @@ export async function GET(_request, { params }) {
       }),
       prisma.plant.findMany({
         where: {
+          user_id,
           next_fertilization: {
             gt: minDate,
             lt: maxDate,

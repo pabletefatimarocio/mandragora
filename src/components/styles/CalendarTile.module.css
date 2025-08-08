@@ -12,6 +12,22 @@
   font-family: var(--font-title);
 }
 
+.cursor {
+  animation: shake 800ms infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(-15deg);
+  }
+}
+
 .outside {
   opacity: 0.5;
 }

@@ -3,14 +3,10 @@ export function createCalendar(year, month) {
   const lastDayPrevMonth = new Date(year, month, 0).getDate();
   const lastDayCurrMonth = new Date(year, month + 1, 0).getDate();
   const originalFirstWeekDay = new Date(year, month, 1).getDay();
-  const firstWeekDay =
-    originalFirstWeekDay === 0 ? 6 : originalFirstWeekDay - 1;
+  const firstWeekDay = originalFirstWeekDay === 0 ? 6 : originalFirstWeekDay - 1;
 
   let monthCursor = "previous";
-  let count =
-    lastDayCurrMonth === 28 && firstWeekDay === 0
-      ? 25
-      : lastDayPrevMonth - firstWeekDay + 1;
+  let count = lastDayCurrMonth === 28 && firstWeekDay === 0 ? 25 : lastDayPrevMonth - firstWeekDay + 1;
 
   if (count > lastDayPrevMonth) {
     monthCursor = "current";
@@ -20,12 +16,9 @@ export function createCalendar(year, month) {
   const calendar = [[], [], [], [], [], []];
   for (let i = 0; i < calendar.length; i++) {
     for (let j = 0; j < 7; j++) {
-      if (
-        today.getMonth() === month &&
-        today.getDate() === count &&
-        monthCursor === "current"
-      ) {
+      if (today.getMonth() === month && today.getDate() === count && monthCursor === "current") {
         calendar[i].push({
+          month: monthCursor,
           day: count,
           outline: "today",
           events: {
@@ -36,6 +29,7 @@ export function createCalendar(year, month) {
         });
       } else {
         calendar[i].push({
+          month: monthCursor,
           day: count,
           outline: monthCursor === "current" ? "inside" : "outside",
           events: {

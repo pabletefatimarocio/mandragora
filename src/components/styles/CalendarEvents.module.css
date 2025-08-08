@@ -1,0 +1,79 @@
+.container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  border-radius: 10px;
+  background-color: var(--beige);
+  padding: 20px;
+  width: 80%;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 20px;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  display: flex;
+  background: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.plant {
+  display: flex;
+  gap: 10px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.plantImg {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.plantImg img {
+  object-fit: cover;
+}
+
+.plantInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.plantName {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.plantScientific {
+  font-size: 0.8rem;
+  font-style: italic;
+}

@@ -6,7 +6,7 @@ import { BiSolidHomeHeart, BiSolidCalendar } from "react-icons/bi";
 import { ImLeaf } from "react-icons/im";
 import { AiOutlinePlus } from "react-icons/ai";
 import { usePathname } from "next/navigation";
-import dateFormater from "@/utils/dateFormater";
+import dateFormater from "@/lib/dateFormater";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -27,7 +27,7 @@ export default function Navbar() {
       </Link>
       <Link
         href={`/calendar/${dateFormater(Date.now())}`}
-        className={pathname === "/calendar" ? styles.active : undefined}
+        className={pathname.startsWith("/calendar") ? styles.active : undefined}
       >
         <BiSolidCalendar fontSize={"35px"} />
         <span>Calendario</span>

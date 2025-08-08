@@ -81,8 +81,6 @@ export async function GET() {
 
     const warningPlants = Array.from(warningPlantsMap.values()).sort((a, b) => a.urgency - b.urgency);
 
-    console.log(warningPlants);
-
     return NextResponse.json(warningPlants, { status: 200 });
   } catch (error) {
     if (error instanceof Error) {
