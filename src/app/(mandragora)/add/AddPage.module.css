@@ -1,17 +1,15 @@
-.container{
-  position: relative;
-  overflow: hidden;
+.container {
+  padding: 0px 30px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+  overflow-x: hidden;
 }
 
-.image{
-  position: absolute;
-  bottom: -70px;
-  left: 0;
-  width: 100%;
-  aspect-ratio: 1/1;
-}
-
-.image img {
-  object-fit: cover;
-  object-position: center;
+.title {
+  color: var(--green);
+  font-size: 36px;
+  font-family: var(--font-title);
+  font-weight: normal;
 }

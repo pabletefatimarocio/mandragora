@@ -9,35 +9,23 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { PiPencilLight } from "react-icons/pi";
 import usePlantDetails from "@/hooks/swr/usePlantDetails";
 
-const plantInitialState = {
-  img: "",
-  name: "",
-  scientific: "",
-  watering: null,
-  waterings: [],
-  fertilization: null,
-  fertilizations: [],
-  location_type: "",
-  location_place: "",
-  tags: [],
-  notes: [],
-};
-
 export default function PlantDetails({ id }) {
-  
-
   const { plant, isLoading, error } = usePlantDetails(id);
 
   if (isLoading) return <div>CARGANDO... </div>;
   if (error) return <div>ERROR</div>;
 
-  const lastWatering = new Date(
-    plant.waterings[plant.waterings.length - 1]
-  ).toLocaleDateString("es", { month: "long", day: "numeric" });
+  console.log(plant);
 
-  const lastFertilization = new Date(
-    plant.fertilizations[plant.fertilizations.length - 1]
-  ).toLocaleDateString("es", { month: "long", day: "numeric" });
+  const lastWatering = new Date(plant.waterings[plant.waterings.length - 1]).toLocaleDateString("es", {
+    month: "long",
+    day: "numeric",
+  });
+
+  const lastFertilization = new Date(plant.fertilizations[plant.fertilizations.length - 1]).toLocaleDateString("es", {
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <div className={styles.container}>
@@ -97,11 +85,7 @@ export default function PlantDetails({ id }) {
         {/* TAGS */}
         <div className={styles.tags}>
           {plant.tags.map((tag) => (
-            <div
-              key={tag.id}
-              className={styles.tag}
-              style={{ backgroundColor: tag.color }}
-            >
+            <div key={tag.id} className={styles.tag} style={{ backgroundColor: tag.color }}>
               <p>{tag.name}</p>
             </div>
           ))}

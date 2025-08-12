@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
 import { v2 as cloudinary } from "cloudinary";
 import env from "@/env";
+import { plantInputSchema } from "@/schemas/zod/plants";
 
 cloudinary.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -42,21 +43,64 @@ export async function GET() {
       console.error(error.stack);
     }
 
-    return NextResponse.json(
-      { error: error.message || "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
   }
 }
 
 export async function POST(request) {
-  // BODY CHECK
-  const { name, scientific, imageFile, watering, fertilization } =
-    await request.json();
+  // BODY ZOD PARSE
+  const body = await request.json();
+  console.log(body);
 
-  if (!name || !scientific || !imageFile.file || !watering || !fertilization) {
-    return NextResponse.json({ error: "Missing form fields" }, { status: 500 });
+  const zodResponse = plantInputSchema.safeParse(body);
+
+  if (!zodResponse.success) {
+    return NextResponse.json({ error: "Invalid data or missing form fields" }, { status: 500 });
   }
+
+  const {
+    name,
+    scientific,
+    location_place,
+    location_type,
+    under_rain,
+    watering,
+    waterings,
+    fertilization,
+    fertilizations,
+    imageFile,
+  } = zodResponse.data;
+
+  let next_watering = null;
+  let next_fertilization = null;
+
+  if (waterings.length) {
+    const MILLISECOND_TIME = 1000;
+    const SECOND_TIME = 60;
+    const MINUTE_TIME = 60;
+    const HOUR_TIME = 24;
+
+    const lastWateringTime = new Date(waterings[waterings.length - 1]).getTime();
+
+    const nextWateringTime = lastWateringTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * watering;
+
+    next_watering = new Date(nextWateringTime).toISOString();
+  }
+
+  if (fertilizations.length) {
+    const MILLISECOND_TIME = 1000;
+    const SECOND_TIME = 60;
+    const MINUTE_TIME = 60;
+    const HOUR_TIME = 24;
+
+    const lastFertilizationTime = new Date(fertilizations[fertilizations.length - 1]).getTime();
+
+    const nextWateringTime =
+      lastFertilizationTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * fertilization;
+
+    next_fertilization = new Date(nextWateringTime).toISOString();
+  }
+
   try {
     // SESSION USER_ID CHECK
     const session = await auth();
@@ -79,10 +123,7 @@ export async function POST(request) {
     });
 
     if (foundPlant) {
-      return NextResponse.json(
-        { error: "Plant name already in use" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Plant name already in use" }, { status: 400 });
     }
 
     // CLOUDINARY IMAGE UPLOAD
@@ -110,33 +151,32 @@ export async function POST(request) {
         user_id,
         name,
         scientific,
+        location_place,
+        location_type,
+        under_rain,
+        watering,
+        waterings,
+        next_watering,
+        fertilization,
+        fertilizations,
+        next_fertilization,
         img,
         img_width,
         img_height,
-        watering: Number(watering),
-        fertilization: Number(fertilization),
       },
       select: {
         id: true,
       },
     });
 
-    return NextResponse.json(
-      { message: "Plant successfully created", data: newPlant },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "Plant successfully created", data: newPlant }, { status: 201 });
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.stack);
     }
 
-    await cloudinary.uploader.destroy(
-      `${env.CLOUDINARY_FOLDER}/${imageFile.name}`
-    );
+    await cloudinary.uploader.destroy(`${env.CLOUDINARY_FOLDER}/${imageFile.name}`);
 
-    return NextResponse.json(
-      { error: error.message || "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
   }
 }

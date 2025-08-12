@@ -1,0 +1,200 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formInput {
+  height: 40px;
+  width: 100%;
+  border-radius: 15px;
+  padding: 0px 20px;
+  font-size: 1rem;
+  color: var(--brown);
+}
+
+.dateInput {
+  width: 55%;
+}
+
+.form span {
+  white-space: nowrap;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.location button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  border: none;
+  border-radius: 15px;
+  background-color: var(--white);
+  padding: 0px 10px;
+  transition: all 200ms ease-in-out;
+}
+
+.locationActive {
+  background-color: var(--green-light) !important;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+}
+
+.rain {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.rain button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  aspect-ratio: 1/1;
+  border: none;
+  border-radius: 15px;
+  background-color: var(--white);
+  padding: 5px;
+  transition: all 200ms ease-in-out;
+}
+
+.rainActive {
+  background-color: var(--green-light) !important;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+}
+
+.watering {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.setters {
+  height: 100%;
+  display: flex;
+}
+
+.setterLeft {
+  border: none;
+  border-radius: 10px 0px 0px 10px;
+  background-color: var(--green-light);
+  padding: 0px 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.setterLeft:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.setterNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  aspect-ratio: 1/1;
+  background-color: var(--white);
+}
+
+.setterRight {
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+  background-color: var(--green-light);
+  padding: 0px 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.setterRight:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.wateringInput {
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
+
+.lastWatering {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fertilization {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lastFertilization {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.imageUpload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.imagePreview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background-color: var(--white);
+  font-size: 3rem;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.imagePreview img {
+  object-fit: cover;
+}
+
+.hiddenFileUploader {
+  display: none;
+}
+
+.errors {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  padding-left: 30px;
+  font-size: 0.8rem;
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.addPlantBtn {
+  background-color: var(--brown);
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  color: var(--beige);
+  height: 52px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
