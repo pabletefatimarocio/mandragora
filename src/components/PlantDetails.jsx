@@ -17,15 +17,19 @@ export default function PlantDetails({ id }) {
 
   console.log(plant);
 
-  const lastWatering = new Date(plant.waterings[plant.waterings.length - 1]).toLocaleDateString("es", {
-    month: "long",
-    day: "numeric",
-  });
+  const lastWatering = plant.waterings.length
+    ? new Date(plant.waterings[plant.waterings.length - 1]).toLocaleDateString("es", {
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A";
 
-  const lastFertilization = new Date(plant.fertilizations[plant.fertilizations.length - 1]).toLocaleDateString("es", {
-    month: "long",
-    day: "numeric",
-  });
+  const lastFertilization = plant.fertilizations.length
+    ? new Date(plant.fertilizations[plant.fertilizations.length - 1]).toLocaleDateString("es", {
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A";
 
   return (
     <div className={styles.container}>
@@ -56,19 +60,21 @@ export default function PlantDetails({ id }) {
                 </p>
               </div>
             </div>
-            <div className={styles.attribute}>
-              <div className={styles.iconBag}>
-                <GiPowderBag />
+            {plant.fertilization > 0 && (
+              <div className={styles.attribute}>
+                <div className={styles.iconBag}>
+                  <GiPowderBag />
+                </div>
+                <div className={styles.text}>
+                  <p>
+                    Fertilizante cada <b>{plant.fertilization}</b> días
+                  </p>
+                  <p>
+                    Última fertilización: <b>{lastFertilization}</b>
+                  </p>
+                </div>
               </div>
-              <div className={styles.text}>
-                <p>
-                  Fertilizante cada <b>{plant.fertilization}</b> días
-                </p>
-                <p>
-                  Última fertilización: <b>{lastFertilization}</b>
-                </p>
-              </div>
-            </div>
+            )}
             <div className={styles.attribute}>
               <div className={styles.iconPlant}>
                 <PiPottedPlantFill />

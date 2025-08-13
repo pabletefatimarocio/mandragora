@@ -40,7 +40,7 @@
   transition: all 200ms ease-in-out;
 }
 
-.locationActive {
+.activeBtn {
   background-color: var(--green-light) !important;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
   transform: translateY(-3px);
@@ -63,12 +63,6 @@
   background-color: var(--white);
   padding: 5px;
   transition: all 200ms ease-in-out;
-}
-
-.rainActive {
-  background-color: var(--green-light) !important;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4);
-  transform: translateY(-3px);
 }
 
 .watering {
@@ -187,6 +181,7 @@
 .addPlantBtn {
   background-color: var(--brown);
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
+  border: none;
   border-radius: 15px;
   color: var(--beige);
   height: 52px;
@@ -197,4 +192,11 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
+  transition: all 200ms ease-in-out;
+}
+
+.addPlantBtn:disabled {
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: none;
+  transform: translateY(3px);
 }

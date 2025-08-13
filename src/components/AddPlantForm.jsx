@@ -16,6 +16,7 @@ const plantInputInitialState = {
   watering: "0",
   waterings: [],
   fertilization: "0",
+  fertilizations: [],
   tags: [],
   imageFile: {
     name: "",
@@ -37,6 +38,8 @@ const errorsInitialState = {
 export default function AddPlantForm() {
   const [plantInput, setPlantInput] = useState(plantInputInitialState);
   const [errors, setErrors] = useState(errorsInitialState);
+  const [isFertilized, setIsFertilized] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   //HANDLE_INPUT
@@ -109,23 +112,52 @@ export default function AddPlantForm() {
   //HANDLE_SUBMIT
   async function handleSubmit(e) {
     e.preventDefault();
+    setErrors(errorsInitialState);
+    if (isFertilized) {
+      if (+plantInput.fertilization === 0) {
+        setErrors((prevState) => {
+          return {
+            ...prevState,
+            fertilization: ["Debes establecer una frecuencia de fertilización."],
+          };
+        });
+      }
+      if (plantInput.fertilizations.length === 0) {
+        setErrors((prevState) => {
+          return {
+            ...prevState,
+            fertilizations: ["Debes establecer la fecha de su última fertilización ¡Podría ser hoy mismo!"],
+          };
+        });
+      }
+    }
     const zodResponse = plantInputSchema.safeParse(plantInput);
     //SUCCESS
     if (zodResponse.success) {
+      setErrors(errorsInitialState);
+      setLoading(true);
       const res = await fetch("/api/plants", {
         method: "POST",
-        body: JSON.stringify(plantInput),
+        body: JSON.stringify(zodResponse.data),
       });
 
       if (res.ok) {
         const resJSON = await res.json();
-        console.log(resJSON);
         const { id } = resJSON.data;
         router.push(`/details/${id}`);
+      } else {
+        if (res.status === 400) {
+          setLoading(false);
+          setErrors((prevState) => {
+            return {
+              ...prevState,
+              name: ["Este nombre ya ha sido asignado a otra planta."],
+            };
+          });
+        }
       }
     } else {
       //ERRORS
-      setErrors(errorsInitialState);
       zodResponse.error.issues.forEach((error) => {
         setErrors((prevState) => {
           if (prevState[error.path[0]]) {
@@ -191,7 +223,7 @@ export default function AddPlantForm() {
                 return { ...prevState, location_type: "Interior" };
               })
             }
-            className={plantInput.location_type === "Interior" ? styles.locationActive : undefined}
+            className={plantInput.location_type === "Interior" ? styles.activeBtn : undefined}
           >
             Interior
           </button>
@@ -202,7 +234,7 @@ export default function AddPlantForm() {
                 return { ...prevState, location_type: "Exterior" };
               })
             }
-            className={plantInput.location_type === "Exterior" ? styles.locationActive : undefined}
+            className={plantInput.location_type === "Exterior" ? styles.activeBtn : undefined}
           >
             Exterior
           </button>
@@ -215,7 +247,7 @@ export default function AddPlantForm() {
       </div>
       {/* RAIN */}
       <div className={styles.rain}>
-        <span>Tu planta recibe agua de lluvia?</span>
+        <span>¿Tu planta recibe agua de lluvia?</span>
         <button
           type="button"
           onClick={() =>
@@ -223,7 +255,7 @@ export default function AddPlantForm() {
               return { ...prevState, under_rain: true };
             })
           }
-          className={plantInput.under_rain ? styles.rainActive : undefined}
+          className={plantInput.under_rain ? styles.activeBtn : undefined}
         >
           Si
         </button>
@@ -234,7 +266,7 @@ export default function AddPlantForm() {
               return { ...prevState, under_rain: false };
             })
           }
-          className={!plantInput.under_rain ? styles.rainActive : undefined}
+          className={!plantInput.under_rain ? styles.activeBtn : undefined}
         >
           No
         </button>
@@ -303,63 +335,102 @@ export default function AddPlantForm() {
           ))}
         </ul>
       </div>
-      {/* FERTILIZATION */}
-      <div>
-        <div className={styles.fertilization}>
-          <span>Fertilización cada</span>
-          <div className={styles.setters}>
-            <button
-              type="button"
-              disabled={plantInput.fertilization <= 0}
-              className={styles.setterLeft}
-              onClick={() =>
-                setPlantInput((prevState) => {
-                  return { ...prevState, fertilization: `${+prevState.fertilization - 1}` };
-                })
-              }
-            >
-              -
-            </button>
-            <input
-              type="text"
-              maxLength={3}
-              inputMode="numeric"
-              name="fertilization"
-              value={plantInput.fertilization}
-              className={styles.wateringInput}
-              onChange={handleNumberChange}
-            />
-            <button
-              type="button"
-              className={styles.setterRight}
-              disabled={plantInput.fertilization >= 999}
-              onClick={() =>
-                setPlantInput((prevState) => {
-                  return { ...prevState, fertilization: `${+prevState.fertilization + 1}` };
-                })
-              }
-            >
-              +
-            </button>
+      {/* FERTILIZATION_CHECK */}
+      <div className={styles.rain}>
+        <span>¿Tu planta recibe fertilización?</span>
+        <button
+          type="button"
+          onClick={() => setIsFertilized(true)}
+          className={isFertilized ? styles.activeBtn : undefined}
+        >
+          Si
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setPlantInput((prevState) => {
+              return {
+                ...prevState,
+                fertilization: plantInputInitialState.fertilization,
+                fertilizations: plantInputInitialState.fertilizations,
+              };
+            });
+            setIsFertilized(false);
+          }}
+          className={!isFertilized ? styles.activeBtn : undefined}
+        >
+          No
+        </button>
+      </div>
+      {isFertilized && (
+        <>
+          {/* FERTILIZATION */}
+          <div>
+            <div className={styles.fertilization}>
+              <span>Fertilización cada</span>
+              <div className={styles.setters}>
+                <button
+                  type="button"
+                  disabled={plantInput.fertilization <= 0}
+                  className={styles.setterLeft}
+                  onClick={() =>
+                    setPlantInput((prevState) => {
+                      return { ...prevState, fertilization: `${+prevState.fertilization - 1}` };
+                    })
+                  }
+                >
+                  -
+                </button>
+                <input
+                  type="text"
+                  maxLength={3}
+                  inputMode="numeric"
+                  name="fertilization"
+                  value={plantInput.fertilization}
+                  className={styles.wateringInput}
+                  onChange={handleNumberChange}
+                />
+                <button
+                  type="button"
+                  className={styles.setterRight}
+                  disabled={plantInput.fertilization >= 999}
+                  onClick={() =>
+                    setPlantInput((prevState) => {
+                      return { ...prevState, fertilization: `${+prevState.fertilization + 1}` };
+                    })
+                  }
+                >
+                  +
+                </button>
+              </div>
+              <span>días</span>
+            </div>
+            <ul className={styles.errors}>
+              {errors.fertilization.map((error, i) => (
+                <li key={i}>{error}</li>
+              ))}
+            </ul>
           </div>
-          <span>días</span>
-        </div>
-        <ul className={styles.errors}>
-          {errors.fertilization.map((error, i) => (
-            <li key={i}>{error}</li>
-          ))}
-        </ul>
-      </div>
-      {/* LAST_FERTILIZATION */}
-      <div className={styles.lastFertilization}>
-        <span>Última fertilización</span>
-        <input
-          className={`${styles.formInput} ${styles.dateInput}`}
-          type="date"
-          name="fertilizations"
-          onChange={handleDateChange}
-        />
-      </div>
+          {/* LAST_FERTILIZATION */}
+          <div>
+            <div className={styles.lastFertilization}>
+              <span>Última fertilización</span>
+              <input
+                className={`${styles.formInput} ${styles.dateInput}`}
+                type="date"
+                name="fertilizations"
+                onChange={handleDateChange}
+              />
+            </div>
+            <ul className={styles.errors}>
+              {errors.fertilizations.map((error, i) => (
+                <li key={i}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+
       {/* IMAGE_UPLOADER */}
       <div>
         <div className={styles.imageUpload}>
@@ -377,7 +448,9 @@ export default function AddPlantForm() {
           ))}
         </ul>
       </div>
-      <button className={styles.addPlantBtn}>Agregar</button>
+      <button className={styles.addPlantBtn} disabled={loading}>
+        {loading ? "Cargando..." : "Agregar"}
+      </button>
     </form>
   );
 }
