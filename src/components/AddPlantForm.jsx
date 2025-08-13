@@ -451,6 +451,7 @@ export default function AddPlantForm() {
       <button className={styles.addPlantBtn} disabled={loading}>
         {loading ? "Cargando..." : "Agregar"}
       </button>
+      <button type="button" onClick={() => setLoading(!loading)}>DEV</button>
     </form>
   );
 }

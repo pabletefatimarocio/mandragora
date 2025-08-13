@@ -50,11 +50,11 @@ export async function GET() {
 export async function POST(request) {
   // BODY ZOD PARSE
   const body = await request.json();
-  console.log(body);
 
   const zodResponse = plantInputSchema.safeParse(body);
 
   if (!zodResponse.success) {
+    console.log(zodResponse.error.issues);
     return NextResponse.json({ error: "Invalid data or missing form fields" }, { status: 500 });
   }
 
@@ -154,10 +154,10 @@ export async function POST(request) {
         location_place,
         location_type,
         under_rain,
-        watering,
+        watering: +watering,
         waterings,
         next_watering,
-        fertilization,
+        fertilization: +fertilization,
         fertilizations,
         next_fertilization,
         img,
