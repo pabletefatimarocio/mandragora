@@ -15,8 +15,6 @@ export default function PlantDetails({ id }) {
   if (isLoading) return <div>CARGANDO... </div>;
   if (error) return <div>ERROR</div>;
 
-  console.log(plant);
-
   const lastWatering = plant.waterings.length
     ? new Date(plant.waterings[plant.waterings.length - 1]).toLocaleDateString("es", {
         month: "long",

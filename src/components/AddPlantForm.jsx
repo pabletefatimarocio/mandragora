@@ -6,6 +6,8 @@ import imageCompression from "browser-image-compression";
 import styles from "./styles/AddPlantForm.module.css";
 import { plantInputSchema } from "@/schemas/zod/plants";
 import { useRouter } from "next/navigation";
+import { useTags } from "@/hooks/swr/useTags";
+import AddTag from "./AddTag";
 
 const plantInputInitialState = {
   name: "",
@@ -40,6 +42,8 @@ export default function AddPlantForm() {
   const [errors, setErrors] = useState(errorsInitialState);
   const [isFertilized, setIsFertilized] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [addedTags, setAddedTags] = useState([]);
+  const { tags } = useTags();
   const router = useRouter();
 
   //HANDLE_INPUT
@@ -131,7 +135,7 @@ export default function AddPlantForm() {
         });
       }
     }
-    const zodResponse = plantInputSchema.safeParse(plantInput);
+    const zodResponse = plantInputSchema.safeParse({ ...plantInput, tags: addedTags });
     //SUCCESS
     if (zodResponse.success) {
       setErrors(errorsInitialState);
@@ -431,6 +435,12 @@ export default function AddPlantForm() {
         </>
       )}
 
+      {/* TAGS */}
+      <div className={styles.tagsField}>
+        <span>Etiquetas</span>
+        {tags && <AddTag tags={tags.data} addedTags={addedTags} setAddedTags={setAddedTags} />}
+      </div>
+
       {/* IMAGE_UPLOADER */}
       <div>
         <div className={styles.imageUpload}>
@@ -451,7 +461,6 @@ export default function AddPlantForm() {
       <button className={styles.addPlantBtn} disabled={loading}>
         {loading ? "Cargando..." : "Agregar"}
       </button>
-      <button type="button" onClick={() => setLoading(!loading)}>DEV</button>
     </form>
   );
 }

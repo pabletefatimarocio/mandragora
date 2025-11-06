@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { tagInputSchema } from "./tags";
 
 export const plantInputSchema = z
   .object({
@@ -13,6 +14,7 @@ export const plantInputSchema = z
       .string()
       .regex(/^(?:0|[1-9]\d?|[12]\d{2}|3(?:[0-5]\d|6[0-5]))$/, "Debe ser un número entre 0 y 365."),
     fertilizations: z.array(z.string()),
+    tags: z.array(tagInputSchema),
     imageFile: z.object({
       name: z.string(),
       file: z.string({ message: "Necesitas una foto de tu planta." }),

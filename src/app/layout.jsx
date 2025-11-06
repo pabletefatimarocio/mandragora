@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <SessionProvider>
-        <body className={`${fontTitle.variable} ${fontText.variable}`}>
+        <body className={`${fontTitle.variable} ${fontText.variable}`} suppressHydrationWarning>
           <div className={styles.rootLayout}>{children}</div>
         </body>
       </SessionProvider>

@@ -1,0 +1,119 @@
+.tagsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--white);
+}
+
+.addedTagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.addedTag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  border-radius: 15px;
+  padding: 0 5px 0 10px;
+  color: var(--white);
+  font-weight: bold;
+}
+
+.addedTagCloseBtn {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  border: none;
+  background: none;
+  font-weight: bold;
+  color: var(--white);
+}
+
+.addTagBtn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: none;
+  background-color: var(--green-light);
+  border-radius: 15px;
+  height: 25px;
+  width: 25px;
+  color: var(--white);
+  font-weight: bold;
+}
+
+.addTagInputContainer {
+  display: flex;
+  position: relative;
+  border-radius: 15px;
+  border: 2px solid var(--green-light);
+}
+
+.addTagInput {
+  border-radius: 15px;
+  padding: 0 5px 0 10px;
+  height: 25px;
+  width: 100%;
+  background-color: transparent;
+}
+
+.tagInputBtn {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: var(--green-light);
+  width: 25px;
+  height: 25px;
+  border-radius: 15px;
+  font-weight: bold;
+  color: var(--white);
+}
+
+.tagsSelector {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 70%;
+  border-radius: 0px 0px 15px 15px;
+  background-color: var(--white);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.tagsSelectorItem {
+  width: 100%;
+  display: flex;
+  border: 2px solid var(--beige);
+  background: none;
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.tagsSelectorItem:hover {
+  background-color: var(--green-light);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+}
+
+.colorPicker {
+  height: 25px;
+  width: 25px;
+  margin-right: 25px;
+}

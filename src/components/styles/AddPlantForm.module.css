@@ -140,6 +140,12 @@
   gap: 10px;
 }
 
+.tagsField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .imageUpload {
   display: flex;
   align-items: center;

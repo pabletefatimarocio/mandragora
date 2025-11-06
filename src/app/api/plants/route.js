@@ -48,59 +48,6 @@ export async function GET() {
 }
 
 export async function POST(request) {
-  // BODY ZOD PARSE
-  const body = await request.json();
-
-  const zodResponse = plantInputSchema.safeParse(body);
-
-  if (!zodResponse.success) {
-    console.log(zodResponse.error.issues);
-    return NextResponse.json({ error: "Invalid data or missing form fields" }, { status: 500 });
-  }
-
-  const {
-    name,
-    scientific,
-    location_place,
-    location_type,
-    under_rain,
-    watering,
-    waterings,
-    fertilization,
-    fertilizations,
-    imageFile,
-  } = zodResponse.data;
-
-  let next_watering = null;
-  let next_fertilization = null;
-
-  if (waterings.length) {
-    const MILLISECOND_TIME = 1000;
-    const SECOND_TIME = 60;
-    const MINUTE_TIME = 60;
-    const HOUR_TIME = 24;
-
-    const lastWateringTime = new Date(waterings[waterings.length - 1]).getTime();
-
-    const nextWateringTime = lastWateringTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * watering;
-
-    next_watering = new Date(nextWateringTime).toISOString();
-  }
-
-  if (fertilizations.length) {
-    const MILLISECOND_TIME = 1000;
-    const SECOND_TIME = 60;
-    const MINUTE_TIME = 60;
-    const HOUR_TIME = 24;
-
-    const lastFertilizationTime = new Date(fertilizations[fertilizations.length - 1]).getTime();
-
-    const nextWateringTime =
-      lastFertilizationTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * fertilization;
-
-    next_fertilization = new Date(nextWateringTime).toISOString();
-  }
-
   try {
     // SESSION USER_ID CHECK
     const session = await auth();
@@ -109,6 +56,60 @@ export async function POST(request) {
 
     if (!user_id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    }
+
+    // BODY ZOD PARSE
+    const body = await request.json();
+
+    const zodResponse = plantInputSchema.safeParse(body);
+
+    if (!zodResponse.success) {
+      console.log(zodResponse.error.issues);
+      return NextResponse.json({ error: "Invalid data or missing form fields" }, { status: 500 });
+    }
+
+    const {
+      name,
+      scientific,
+      location_place,
+      location_type,
+      under_rain,
+      watering,
+      waterings,
+      fertilization,
+      fertilizations,
+      tags,
+      imageFile,
+    } = zodResponse.data;
+
+    let next_watering = null;
+    let next_fertilization = null;
+
+    if (waterings.length) {
+      const MILLISECOND_TIME = 1000;
+      const SECOND_TIME = 60;
+      const MINUTE_TIME = 60;
+      const HOUR_TIME = 24;
+
+      const lastWateringTime = new Date(waterings[waterings.length - 1]).getTime();
+
+      const nextWateringTime = lastWateringTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * watering;
+
+      next_watering = new Date(nextWateringTime).toISOString();
+    }
+
+    if (fertilizations.length) {
+      const MILLISECOND_TIME = 1000;
+      const SECOND_TIME = 60;
+      const MINUTE_TIME = 60;
+      const HOUR_TIME = 24;
+
+      const lastFertilizationTime = new Date(fertilizations[fertilizations.length - 1]).getTime();
+
+      const nextWateringTime =
+        lastFertilizationTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * fertilization;
+
+      next_fertilization = new Date(nextWateringTime).toISOString();
     }
 
     // PLANT PREVIOUS EXISTANCE CHECK
@@ -167,6 +168,54 @@ export async function POST(request) {
       select: {
         id: true,
       },
+    });
+
+    // TODO: TAGS
+    tags.forEach(async (tag) => {
+      const foundTag = await prisma.tag.findUnique({
+        where: {
+          id: tag.id,
+        },
+      });
+
+      if (foundTag) {
+        await prisma.plant.update({
+          where: {
+            id: newPlant.id,
+          },
+          data: {
+            tags: {
+              connect: {
+                id: foundTag.id,
+              },
+            },
+          },
+        });
+      } else {
+        const newTag = await prisma.tag.create({
+          data: {
+            user_id,
+            name: tag.name,
+            color: tag.color,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+        await prisma.plant.update({
+          where: {
+            id: newPlant.id,
+          },
+          data: {
+            tags: {
+              connect: {
+                id: newTag.id,
+              },
+            },
+          },
+        });
+      }
     });
 
     return NextResponse.json({ message: "Plant successfully created", data: newPlant }, { status: 201 });
