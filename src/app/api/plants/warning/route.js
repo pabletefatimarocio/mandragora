@@ -58,7 +58,13 @@ export async function GET() {
     for (const plant of wateringWarningPlants) {
       const { next_watering, next_fertilization, ...rest } = plant;
 
-      const urgency = next_watering < next_fertilization ? next_watering : next_fertilization;
+      let urgency;
+
+      if (!next_fertilization) {
+        urgency = next_watering;
+      } else {
+        urgency = next_watering < next_fertilization ? next_watering : next_fertilization;
+      }
 
       warningPlantsMap.set(plant.id, { ...rest, urgency, needs: ["regar"] });
     }

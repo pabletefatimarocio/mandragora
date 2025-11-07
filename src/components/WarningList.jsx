@@ -10,7 +10,9 @@ export default function WarningList() {
 
   if (isLoading) return <div>LOADING...</div>;
 
-  if (error) return <div>ERROR</div>
+  if (error) return <div>ERROR</div>;
+
+  console.log(warnings);
 
   return (
     <div className={styles.container}>
@@ -22,7 +24,7 @@ export default function WarningList() {
       {warnings.map((item, i) => {
         return (
           <div key={item.id}>
-            {i !== 0 && <hr/>}
+            {i !== 0 && <hr />}
             <WarningItem plant={item} />
           </div>
         );

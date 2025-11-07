@@ -7,6 +7,8 @@ import dateFormater from "@/lib/dateFormater";
 
 export default function WarningItem({ plant }) {
 
+  console.log(plant.name, plant.urgency)
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
