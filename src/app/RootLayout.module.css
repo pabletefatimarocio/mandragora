@@ -11,6 +11,7 @@
 
 @media (max-width: 500px) {
   .rootLayout {
+    background-color: var(--beige);
     overflow: none;
     box-shadow: none;
     border-radius: 0px;
