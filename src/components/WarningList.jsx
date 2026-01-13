@@ -12,8 +12,6 @@ export default function WarningList() {
 
   if (error) return <div>ERROR</div>;
 
-  console.log(warnings);
-
   return (
     <div className={styles.container}>
       <div className={styles.title}>

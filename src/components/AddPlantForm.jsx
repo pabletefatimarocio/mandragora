@@ -15,14 +15,14 @@ const plantInputInitialState = {
   location_place: "",
   location_type: "Interior",
   under_rain: false,
-  watering: "0",
+  watering: 0,
   waterings: [],
-  fertilization: "0",
+  fertilization: 0,
   fertilizations: [],
   tags: [],
   imageFile: {
     name: "",
-    file: null,
+    file: "",
   },
 };
 
@@ -77,12 +77,16 @@ export default function AddPlantForm() {
 
   //HANDLE_NUMBERS
   function handleNumberChange(e) {
-    setPlantInput((prevState) => {
-      return {
-        ...prevState,
-        [e.target.name]: e.target.value,
-      };
-    });
+    const number = +e.target.value;
+
+    if (number) {
+      setPlantInput((prevState) => {
+        return {
+          ...prevState,
+          [e.target.name]: number,
+        };
+      });
+    }
   }
 
   //UPLOAD_IMAGE
@@ -115,10 +119,13 @@ export default function AddPlantForm() {
 
   //HANDLE_SUBMIT
   async function handleSubmit(e) {
+    let hasEarlyErrors = false;
     e.preventDefault();
     setErrors(errorsInitialState);
+
     if (isFertilized) {
-      if (+plantInput.fertilization === 0) {
+      if (plantInput.fertilization === 0) {
+        hasEarlyErrors = true;
         setErrors((prevState) => {
           return {
             ...prevState,
@@ -126,18 +133,11 @@ export default function AddPlantForm() {
           };
         });
       }
-      if (plantInput.fertilizations.length === 0) {
-        setErrors((prevState) => {
-          return {
-            ...prevState,
-            fertilizations: ["Debes establecer la fecha de su última fertilización ¡Podría ser hoy mismo!"],
-          };
-        });
-      }
     }
+
     const zodResponse = plantInputSchema.safeParse({ ...plantInput, tags: addedTags });
     //SUCCESS
-    if (zodResponse.success) {
+    if (zodResponse.success && !hasEarlyErrors) {
       setErrors(errorsInitialState);
       setLoading(true);
       const res = await fetch("/api/plants", {
@@ -162,15 +162,11 @@ export default function AddPlantForm() {
       }
     } else {
       //ERRORS
-      zodResponse.error.issues.forEach((error) => {
-        setErrors((prevState) => {
-          if (prevState[error.path[0]]) {
-            return {
-              ...prevState,
-              [error.path[0]]: [...prevState[error.path[0]], error.message],
-            };
-          }
-        });
+      zodResponse.error?.issues.forEach((error) => {
+        setErrors((prevState) => ({
+          ...prevState,
+          [error.path[0]]: [...prevState[error.path[0]], error.message],
+        }));
       });
     }
   }
@@ -286,7 +282,7 @@ export default function AddPlantForm() {
               className={styles.setterLeft}
               onClick={() =>
                 setPlantInput((prevState) => {
-                  return { ...prevState, watering: `${+prevState.watering - 1}` };
+                  return { ...prevState, watering: prevState.watering - 1 };
                 })
               }
             >
@@ -297,7 +293,7 @@ export default function AddPlantForm() {
               maxLength={3}
               inputMode="numeric"
               name="watering"
-              value={plantInput.watering}
+              value={`${plantInput.watering}`}
               className={styles.wateringInput}
               onChange={handleNumberChange}
             />
@@ -307,7 +303,7 @@ export default function AddPlantForm() {
               disabled={plantInput.watering >= 999}
               onClick={() =>
                 setPlantInput((prevState) => {
-                  return { ...prevState, watering: `${+prevState.watering + 1}` };
+                  return { ...prevState, watering: prevState.watering + 1 };
                 })
               }
             >
@@ -379,7 +375,7 @@ export default function AddPlantForm() {
                   className={styles.setterLeft}
                   onClick={() =>
                     setPlantInput((prevState) => {
-                      return { ...prevState, fertilization: `${+prevState.fertilization - 1}` };
+                      return { ...prevState, fertilization: prevState.fertilization - 1 };
                     })
                   }
                 >
@@ -390,7 +386,7 @@ export default function AddPlantForm() {
                   maxLength={3}
                   inputMode="numeric"
                   name="fertilization"
-                  value={plantInput.fertilization}
+                  value={`${plantInput.fertilization}`}
                   className={styles.wateringInput}
                   onChange={handleNumberChange}
                 />
@@ -400,7 +396,7 @@ export default function AddPlantForm() {
                   disabled={plantInput.fertilization >= 999}
                   onClick={() =>
                     setPlantInput((prevState) => {
-                      return { ...prevState, fertilization: `${+prevState.fertilization + 1}` };
+                      return { ...prevState, fertilization: prevState.fertilization + 1 };
                     })
                   }
                 >
@@ -446,7 +442,11 @@ export default function AddPlantForm() {
         <div className={styles.imageUpload}>
           <label htmlFor="imgUploader">
             <div className={styles.imagePreview}>
-              {plantInput.imageFile.file ? <Image src={plantInput.imageFile.file} alt="" fill /> : <span>+</span>}
+              {plantInput.imageFile.file !== "" ? (
+                <Image src={plantInput.imageFile.file} alt="" fill />
+              ) : (
+                <span>+</span>
+              )}
             </div>
           </label>
           <span>Agregar foto</span>

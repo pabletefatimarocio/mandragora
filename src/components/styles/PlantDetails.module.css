@@ -28,6 +28,8 @@
   z-index: 1;
 }
 
+/* INFO */
+
 .info {
   position: relative;
   display: flex;
@@ -38,12 +40,15 @@
   gap: 20px;
 }
 
-.pencilInfo {
+.editInfoBtn {
   position: absolute;
   right: 20px;
   top: 20px;
   font-size: 20px;
   color: var(--green-light);
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .name h1 {
@@ -88,6 +93,8 @@
   font-size: 30px;
   opacity: 0.7;
 }
+
+/* TAGS */
 
 .tags {
   display: flex;
@@ -142,15 +149,13 @@
   border: 1px dotted var(--green-light);
 }
 
-
-.notesContent{
+.notesContent {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.noteDate{
+.noteDate {
   opacity: 0.6;
   font-size: 14px;
 }
-

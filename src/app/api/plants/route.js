@@ -155,10 +155,10 @@ export async function POST(request) {
         location_place,
         location_type,
         under_rain,
-        watering: +watering,
+        watering,
         waterings,
         next_watering,
-        fertilization: +fertilization,
+        fertilization,
         fertilizations,
         next_fertilization,
         img,
@@ -170,7 +170,7 @@ export async function POST(request) {
       },
     });
 
-    // TODO: TAGS
+    //TAGS
     tags.forEach(async (tag) => {
       const foundTag = await prisma.tag.findUnique({
         where: {
