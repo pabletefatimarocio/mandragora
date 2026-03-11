@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { PiPottedPlantFill } from "react-icons/pi";
 import { GiPowderBag } from "react-icons/gi";
 import { BsDropletFill } from "react-icons/bs";
 import styles from "./styles/EditDetailsInfo.module.css";
 import { plantEditInfoSchema } from "@/schemas/zod/plants";
 import usePlantDetails from "@/hooks/swr/usePlantDetails";
+import DeletePlantBtn from "./DeletePlantBtn";
 
 const errorsInitialState = {
   name: [],
@@ -33,7 +34,7 @@ export default function EditDetailsInfo({ id, plant, setIsEditing }) {
     fertilizations: plant.fertilizations,
   });
   const [requireFertilization, setRequireFertilization] = useState(
-    plant.fertilization > 0 && plant.fertilizations.length > 0
+    plant.fertilization > 0 && plant.fertilizations.length > 0,
   );
   const [errors, setErrors] = useState(errorsInitialState);
   const [isEdited, setIsEdited] = useState(false);
@@ -140,9 +141,6 @@ export default function EditDetailsInfo({ id, plant, setIsEditing }) {
   // RENDER
   return (
     <form className={styles.editingInfo} onSubmit={handleSubmit}>
-      <button className={styles.confirmEditingInfoBtn} type="submit">
-        <AiOutlineCheckCircle />
-      </button>
       <div className={styles.editingName}>
         <input type="text" name="name" value={newInfo.name} onChange={handleChange} className={styles.nameInput} />
 
@@ -223,21 +221,24 @@ export default function EditDetailsInfo({ id, plant, setIsEditing }) {
             <button
               type="button"
               onClick={() => {
-                setIsEdited(true);
+                if (!requireFertilization) setIsEdited(true);
                 setRequireFertilization(true);
               }}
               className={requireFertilization ? styles.activeBtn : undefined}
             >
               Si
             </button>
+
             <button
               type="button"
               onClick={() => {
+                if (requireFertilization) setIsEdited(true);
+
                 setRequireFertilization(false);
                 setNewInfo((prevState) => ({
                   ...prevState,
-                  fertilization: plant.fertilization,
-                  fertilizations: plant.fertilizations,
+                  fertilization: 0,
+                  fertilizations: [],
                 }));
               }}
               className={!requireFertilization ? styles.activeBtn : undefined}
@@ -366,6 +367,18 @@ export default function EditDetailsInfo({ id, plant, setIsEditing }) {
             ))}
           </ul>
         )}
+      </div>
+
+      <div className={styles.buttonsContainer}>
+        <DeletePlantBtn id={id} />
+        <div className={styles.rightButtonsContainer}>
+          <button className={styles.cancelEditingInfoBtn} type="button" onClick={() => setIsEditing(false)}>
+            <AiOutlineCloseCircle size={30} />
+          </button>
+          <button className={styles.confirmEditingInfoBtn} disabled={!isEdited} type="submit">
+            <AiOutlineCheckCircle size={30} />
+          </button>
+        </div>
       </div>
     </form>
   );

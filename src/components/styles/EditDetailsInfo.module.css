@@ -1,13 +1,13 @@
 /* EDITING INFO */
 
 .editingInfo {
-  position: relative;
   display: flex;
   flex-direction: column;
   background-color: var(--white);
   padding: 20px 30px;
   border-radius: 15px;
   gap: 20px;
+  overflow: hidden;
 }
 
 .editingInfo input {
@@ -17,12 +17,32 @@
   color: var(--brown);
 }
 
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rightButtonsContainer {
+  display: flex;
+  gap: 20px;
+}
+
 .confirmEditingInfoBtn {
-  position: absolute;
-  right: 20px;
-  top: 20px;
   font-size: 20px;
   color: var(--green-light);
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.confirmEditingInfoBtn:disabled {
+  color: grey;
+  opacity: 20%;
+  cursor: auto;
+}
+
+.cancelEditingInfoBtn {
+  font-size: 20px;
+  color: red;
   border: none;
   background: none;
   cursor: pointer;
@@ -48,7 +68,7 @@
 .editingAttributes {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
 .editingAttribute {

@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import { v2 as cloudinary } from "cloudinary";
 import env from "@/env";
 import { plantInputSchema } from "@/schemas/zod/plants";
+import { createNextDate } from "@/lib/createNextDate";
 
 cloudinary.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -64,7 +65,6 @@ export async function POST(request) {
     const zodResponse = plantInputSchema.safeParse(body);
 
     if (!zodResponse.success) {
-      console.log(zodResponse.error.issues);
       return NextResponse.json({ error: "Invalid data or missing form fields" }, { status: 500 });
     }
 
@@ -86,30 +86,11 @@ export async function POST(request) {
     let next_fertilization = null;
 
     if (waterings.length) {
-      const MILLISECOND_TIME = 1000;
-      const SECOND_TIME = 60;
-      const MINUTE_TIME = 60;
-      const HOUR_TIME = 24;
-
-      const lastWateringTime = new Date(waterings[waterings.length - 1]).getTime();
-
-      const nextWateringTime = lastWateringTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * watering;
-
-      next_watering = new Date(nextWateringTime).toISOString();
+      next_watering = createNextDate(watering, waterings);
     }
 
     if (fertilizations.length) {
-      const MILLISECOND_TIME = 1000;
-      const SECOND_TIME = 60;
-      const MINUTE_TIME = 60;
-      const HOUR_TIME = 24;
-
-      const lastFertilizationTime = new Date(fertilizations[fertilizations.length - 1]).getTime();
-
-      const nextWateringTime =
-        lastFertilizationTime + MILLISECOND_TIME * SECOND_TIME * MINUTE_TIME * HOUR_TIME * fertilization;
-
-      next_fertilization = new Date(nextWateringTime).toISOString();
+      next_fertilization = createNextDate(fertilization, fertilizations);
     }
 
     // PLANT PREVIOUS EXISTANCE CHECK
