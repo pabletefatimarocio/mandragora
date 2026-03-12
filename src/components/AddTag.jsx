@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import styles from "./styles/AddTag.module.css";
 import { motion } from "motion/react";
 import { FaCheck, FaX, FaPlus } from "react-icons/fa6";
+import { pickContrastedFontColor } from "@/lib/pickContrastedFontColor";
 
 export default function AddTag({ tags, addedTags, setAddedTags }) {
   const [oldTags, setOldTags] = useState([]);
   const [newTagVisibility, setNewTagVisibility] = useState(false);
   const [newTag, setNewTag] = useState("");
   const [pickedColor, setPickedColor] = useState("#22468a");
+
+  useEffect(() => {
+    console.log(pickedColor);
+  }, [pickedColor]);
 
   useEffect(() => {
     let tempTags = [...tags];
@@ -40,14 +45,11 @@ export default function AddTag({ tags, addedTags, setAddedTags }) {
   function addTag(id) {
     const addedTag = oldTags.find((tag) => tag.id === id);
     setAddedTags((prevState) => [...prevState, addedTag]);
-    // setOldTags(oldTags.filter((tag) => tag.id !== id));
     setNewTag("");
     setNewTagVisibility(false);
   }
 
   function deleteTag(id) {
-    // const restoredTag = addedTags.find((tag) => tag.id === id);
-    // setOldTags((prevState) => [...prevState, restoredTag]);
     setAddedTags(addedTags.filter((tag) => tag.id !== id));
   }
 
@@ -56,9 +58,18 @@ export default function AddTag({ tags, addedTags, setAddedTags }) {
       {addedTags.length > 0 && (
         <div className={styles.addedTagsContainer}>
           {addedTags.map((tag) => (
-            <div key={tag.id} className={styles.addedTag} style={{ backgroundColor: tag.color }}>
+            <div
+              key={tag.id}
+              className={styles.addedTag}
+              style={{ backgroundColor: tag.color, color: pickContrastedFontColor(tag.color) }}
+            >
               {tag.name}
-              <button type="button" className={styles.addedTagCloseBtn} onClick={() => deleteTag(tag.id)}>
+              <button
+                type="button"
+                className={styles.addedTagCloseBtn}
+                style={{ color: pickContrastedFontColor(tag.color) }}
+                onClick={() => deleteTag(tag.id)}
+              >
                 <FaX size={10} />
               </button>
             </div>
