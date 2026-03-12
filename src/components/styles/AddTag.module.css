@@ -89,12 +89,15 @@
   background-color: var(--white);
   overflow: hidden;
   z-index: 100;
+  border: solid 2px var(--beige);
+  border-top: none;
 }
 
 .tagsSelectorItem {
   width: 100%;
   display: flex;
-  border: 2px solid var(--beige);
+  border: none;
+  border-top: 2px solid var(--beige);
   background: none;
   padding: 0 5px;
   cursor: pointer;

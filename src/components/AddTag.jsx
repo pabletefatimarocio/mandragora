@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles/AddTag.module.css";
 import { motion } from "motion/react";
 import { FaCheck, FaX, FaPlus } from "react-icons/fa6";
 
 export default function AddTag({ tags, addedTags, setAddedTags }) {
-  const [oldTags, setOldTags] = useState(tags);
+  const [oldTags, setOldTags] = useState([]);
   const [newTagVisibility, setNewTagVisibility] = useState(false);
   const [newTag, setNewTag] = useState("");
   const [pickedColor, setPickedColor] = useState("#22468a");
+
+  useEffect(() => {
+    let tempTags = [...tags];
+    tags.forEach((tag) => {
+      addedTags.forEach((addedTag) => {
+        if (tag.id === addedTag.id) {
+          tempTags = [...tempTags.filter((tempTag) => tempTag.id !== addedTag.id)];
+        }
+      });
+    });
+
+    setOldTags(tempTags);
+  }, [addedTags]);
 
   function handleTagNameChange(e) {
     setNewTag(e.target.value);
@@ -27,14 +40,14 @@ export default function AddTag({ tags, addedTags, setAddedTags }) {
   function addTag(id) {
     const addedTag = oldTags.find((tag) => tag.id === id);
     setAddedTags((prevState) => [...prevState, addedTag]);
-    setOldTags(oldTags.filter((tag) => tag.id !== id));
+    // setOldTags(oldTags.filter((tag) => tag.id !== id));
     setNewTag("");
     setNewTagVisibility(false);
   }
 
   function deleteTag(id) {
-    const restoredTag = addedTags.find((tag) => tag.id === id);
-    setOldTags((prevState) => [...prevState, restoredTag]);
+    // const restoredTag = addedTags.find((tag) => tag.id === id);
+    // setOldTags((prevState) => [...prevState, restoredTag]);
     setAddedTags(addedTags.filter((tag) => tag.id !== id));
   }
 

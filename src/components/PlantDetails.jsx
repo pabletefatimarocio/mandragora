@@ -5,16 +5,16 @@ import Image from "next/image";
 import { PiPottedPlantFill, PiPencilLight } from "react-icons/pi";
 import { GiPowderBag } from "react-icons/gi";
 import { BsDropletFill } from "react-icons/bs";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 import usePlantDetails from "@/hooks/swr/usePlantDetails";
 import { useState } from "react";
 import EditDetailsInfo from "./EditDetailsInfo";
+import Tags from "@/components/Tags";
 
 export default function PlantDetails({ id }) {
   const { plant, isLoading, error } = usePlantDetails(id);
   const [isEditing, setIsEditing] = useState(false);
 
-  if (isLoading) return <div>CARGANDO... </div>;
+  if (isLoading || !plant) return <div>CARGANDO... </div>;
   if (error) return <div>ERROR</div>;
 
   //LAST WATERING
@@ -98,17 +98,11 @@ export default function PlantDetails({ id }) {
           </div>
         )}
 
-        {isEditing && <EditDetailsInfo id={id}  plant={plant} setIsEditing={setIsEditing} />}
+        {isEditing && <EditDetailsInfo id={id} plant={plant} setIsEditing={setIsEditing} />}
 
         {/* TAGS */}
-        <div className={styles.tags}>
-          {plant.tags.map((tag) => (
-            <div key={tag.id} className={styles.tag} style={{ backgroundColor: tag.color }}>
-              <p>{tag.name}</p>
-            </div>
-          ))}
-          <AiOutlinePlusCircle className={styles.plus} />
-        </div>
+        <Tags plantTags={plant.tags} />
+
         {/* NOTES */}
         <div className={styles.notes}>
           <div className={styles.titleNotes}>

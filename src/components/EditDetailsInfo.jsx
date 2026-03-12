@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { PiPottedPlantFill } from "react-icons/pi";
 import { GiPowderBag } from "react-icons/gi";
 import { BsDropletFill } from "react-icons/bs";
@@ -9,6 +8,7 @@ import styles from "./styles/EditDetailsInfo.module.css";
 import { plantEditInfoSchema } from "@/schemas/zod/plants";
 import usePlantDetails from "@/hooks/swr/usePlantDetails";
 import DeletePlantBtn from "./DeletePlantBtn";
+import CheckCloseCircleBtn from "./ui/CheckCloseCircleBtn";
 
 const errorsInitialState = {
   name: [],
@@ -372,12 +372,8 @@ export default function EditDetailsInfo({ id, plant, setIsEditing }) {
       <div className={styles.buttonsContainer}>
         <DeletePlantBtn id={id} />
         <div className={styles.rightButtonsContainer}>
-          <button className={styles.cancelEditingInfoBtn} type="button" onClick={() => setIsEditing(false)}>
-            <AiOutlineCloseCircle size={30} />
-          </button>
-          <button className={styles.confirmEditingInfoBtn} disabled={!isEdited} type="submit">
-            <AiOutlineCheckCircle size={30} />
-          </button>
+          <CheckCloseCircleBtn type="button" variant="close" onClick={() => setIsEditing(false)} />
+          <CheckCloseCircleBtn type="submit" variant="check" disabled={!isEdited} />
         </div>
       </div>
     </form>

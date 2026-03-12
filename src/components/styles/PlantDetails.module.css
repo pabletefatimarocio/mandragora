@@ -94,32 +94,6 @@
   opacity: 0.7;
 }
 
-/* TAGS */
-
-.tags {
-  display: flex;
-  padding: 20px;
-  background-color: var(--white);
-  border-radius: 15px;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-
-.tag {
-  padding: 5px 10px;
-  border-radius: 15px;
-  color: var(--white);
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.plus {
-  font-size: 25px;
-  opacity: 0.4;
-  color: var(--brown);
-}
-
 .notes {
   display: flex;
   flex-direction: column;
