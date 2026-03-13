@@ -101,7 +101,7 @@ export default function PlantDetails({ id }) {
         {isEditing && <EditDetailsInfo id={id} plant={plant} setIsEditing={setIsEditing} />}
 
         {/* TAGS */}
-        <Tags plantTags={plant.tags} />
+        <Tags plantTags={plant.tags} plantId={id} />
 
         {/* NOTES */}
         <div className={styles.notes}>

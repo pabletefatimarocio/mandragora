@@ -116,8 +116,6 @@ export default function EditDetailsInfo({ id, plant, setIsEditing }) {
 
         if (res.ok) {
           mutate();
-
-          // TODO: MOVE THIS
           setIsEditing(false);
         } else {
           setErrors((prevState) => ({

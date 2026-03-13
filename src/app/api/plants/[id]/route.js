@@ -5,6 +5,7 @@ import { v2 as cloudinary } from "cloudinary";
 import env from "@/env";
 import { plantEditInfoSchema } from "@/schemas/zod/plants";
 import { createNextDate } from "@/lib/createNextDate";
+import { tagsUpdateSchema } from "@/schemas/zod/tags";
 
 export async function PATCH(request, { params }) {
   try {
@@ -20,9 +21,128 @@ export async function PATCH(request, { params }) {
     if (imageFile) {
       //TODO: update img
     } else if (tags) {
-      //TODO: update tags
+      // ZOD PARSE
+      const zodResponse = tagsUpdateSchema.safeParse(tags);
+
+      if (!zodResponse.success) {
+        return NextResponse.json({ error: "Invalid data or missing form fields" }, { status: 500 });
+      }
+
+      const updatingTags = zodResponse.data;
+
+      // FIND_PLANT_TO_UPDATE
+      const toUpdatePlant = await prisma.plant.findUnique({
+        where: {
+          id,
+          user_id,
+        },
+        select: {
+          tags: true,
+        },
+      });
+
+      // SPLIT_TAGS_INTO_ACTIONS
+      const toRemoveTags = [];
+      const toMaintainTags = [];
+      const toConnectTags = [];
+
+      toUpdatePlant.tags.forEach((prevTag) => {
+        let found = false;
+        updatingTags.forEach((updatingTag) => {
+          // TO_MAINTAIN_TAGS
+          if (prevTag.id === updatingTag.id) {
+            found = true;
+            toMaintainTags.push(prevTag);
+          }
+        });
+
+        // TO_REMOVE_TAGS
+        if (!found) toRemoveTags.push(prevTag);
+      });
+
+      // TO_CONNECT_TAGS
+      updatingTags.forEach((updatingTag) => {
+        let discard = false;
+
+        [...toRemoveTags, ...toMaintainTags].forEach((discardingTag) => {
+          if (updatingTag.id === discardingTag.id) {
+            discard = true;
+          }
+        });
+
+        if (!discard) toConnectTags.push(updatingTag);
+      });
+
+      toRemoveTags.forEach(async (toRemoveTag) => {
+        await prisma.plant.update({
+          where: {
+            id,
+            user_id,
+          },
+          data: {
+            tags: {
+              disconnect: {
+                id: toRemoveTag.id,
+              },
+            },
+          },
+        });
+      });
+
+      // CONNECT_TAGS
+      toConnectTags.forEach(async (tag) => {
+        const foundTag = await prisma.tag.findUnique({
+          where: {
+            id: tag.id,
+          },
+        });
+
+        if (foundTag) {
+          // CONNECT_EXISTING_TAGS
+          await prisma.plant.update({
+            where: {
+              id,
+              user_id,
+            },
+            data: {
+              tags: {
+                connect: {
+                  id: foundTag.id,
+                },
+              },
+            },
+          });
+        } else {
+          // CREATE_&_CONNECT_NEW_TAGS
+          const newTag = await prisma.tag.create({
+            data: {
+              user_id,
+              name: tag.name,
+              color: tag.color,
+            },
+            select: {
+              id: true,
+            },
+          });
+
+          await prisma.plant.update({
+            where: {
+              id,
+              user_id,
+            },
+            data: {
+              tags: {
+                connect: {
+                  id: newTag.id,
+                },
+              },
+            },
+          });
+        }
+      });
+
+      return NextResponse.json({ message: "Plant successfully updated" }, { status: 201 });
     } else {
-      //TODO: update info
       const zodResponse = plantEditInfoSchema.safeParse(rest);
 
       if (!zodResponse.success) {

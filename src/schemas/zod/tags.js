@@ -5,3 +5,5 @@ export const tagInputSchema = z.object({
   name: z.string().min(2, "El nombre debe ser de al menos 2 caracteres."),
   color: z.string().regex(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i, "Color inválido"),
 });
+
+export const tagsUpdateSchema = z.array(tagInputSchema);
