@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/db";
-import { v2 as cloudinary } from "cloudinary";
-import env from "@/env";
+// import { v2 as cloudinary } from "cloudinary";
+// import env from "@/env";
 import { plantEditInfoSchema } from "@/schemas/zod/plants";
 import { createNextDate } from "@/lib/createNextDate";
 import { tagsUpdateSchema } from "@/schemas/zod/tags";
