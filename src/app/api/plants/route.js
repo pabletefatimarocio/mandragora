@@ -156,6 +156,7 @@ export async function POST(request) {
       const foundTag = await prisma.tag.findUnique({
         where: {
           id: tag.id,
+          user_id,
         },
       });
 
@@ -163,6 +164,7 @@ export async function POST(request) {
         await prisma.plant.update({
           where: {
             id: newPlant.id,
+            user_id,
           },
           data: {
             tags: {
@@ -187,6 +189,7 @@ export async function POST(request) {
         await prisma.plant.update({
           where: {
             id: newPlant.id,
+            user_id,
           },
           data: {
             tags: {

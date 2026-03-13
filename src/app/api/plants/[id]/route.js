@@ -94,6 +94,7 @@ export async function PATCH(request, { params }) {
         const foundTag = await prisma.tag.findUnique({
           where: {
             id: tag.id,
+            user_id,
           },
         });
 
